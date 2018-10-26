@@ -30,7 +30,10 @@
 * error: failed to push some refs to 'https://sandykho47@bitbucket.org/sandykho47/sdl.git'
     * git pull --rebase origin master
     * git push origin master
+* remove remote url
+    * git remote rm <remote name>
 
 ## link ref
 * https://medium.com/learn-git-today/the-ultimate-git-guide-to-creating-your-first-repo-b50762a6ab00
 * https://stackoverflow.com/questions/24114676/git-error-failed-to-push-some-refs-to
+* https://help.github.com/articles/removing-a-remote/
