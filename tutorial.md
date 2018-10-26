@@ -9,8 +9,8 @@
 1. git init .
 2. git remote add <link name> <repisitory link>
     * git remote add origin https://sandykho47@bitbucket.org/sandykho47/sdl.git
-3. git pull -u <link nama> <branch name>
-    * git pull -u origin master
+3. git pull <link nama> <branch name>
+    * git pull origin master
 
 ## commit & push
 
@@ -25,5 +25,12 @@
 * git log
 * git status
 
+## list error & fix
+
+* error: failed to push some refs to 'https://sandykho47@bitbucket.org/sandykho47/sdl.git'
+    * git pull --rebase origin master
+    * git push origin master
+
 ## link ref
 * https://medium.com/learn-git-today/the-ultimate-git-guide-to-creating-your-first-repo-b50762a6ab00
+* https://stackoverflow.com/questions/24114676/git-error-failed-to-push-some-refs-to
