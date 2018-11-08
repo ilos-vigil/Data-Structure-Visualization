@@ -1,3 +1,26 @@
+# Convert console to form
+
+1. Add/change to this
+```cs
+using System.Windows.Forms;
+
+namespace Btree
+{
+    class Program
+    {
+        [STAThread]
+        static void Main()
+        {   
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+        }
+    }
+}
+
+```
+2. Right Click on Project > Properties > Set output type "Windows application"
+
 # how to use GIT
 
 ## first time configuration
