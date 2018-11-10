@@ -22,35 +22,62 @@ namespace Btree
         }
 
         private void btnOrdo_Click(object sender, EventArgs e) {
+            setOrdo();
+        }
+        private void tbOrdo_KeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter)
+                setOrdo();
+        }
+        private void setOrdo(){
             int ordoSize = int.Parse(tbOrdo.Text);
             bt = new Btree(ordoSize);
+            tbOrdo.Text = "";
             panel1.Refresh();
+
+            tbInsert.Enabled = true;
+            btnInsert.Enabled = true;
+            tbSearch.Enabled = true;
+            btnSearch.Enabled = true;
+            tbDelete.Enabled = true;
+            btnDelete.Enabled = true;
         }
 
         private void btnInsert_Click(object sender, EventArgs e) {
+            insertKey();
+        }
+        private void tbInsert_KeyUp(object sender, KeyEventArgs e) {
+            if(e.KeyCode == Keys.Enter) insertKey();
+        }
+        private void insertKey() {
             int insertValue = int.Parse(tbInsert.Text);
             bt.insert(ref bt.root, insertValue);
+            tbInsert.Text = "";
             panel1.Refresh();
         }
 
         private void btnSearch_Click(object sender, EventArgs e) {
 
         }
+        private void tbSearch_KeyUp(object sender, KeyEventArgs e) {
+
+        }
 
         private void btnDelete_Click(object sender, EventArgs e) {
+            deleteKey();
+        }
+        private void tbDelete_KeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter)
+                deleteKey();
+        }
+        private void deleteKey(){
             int deleteValue = int.Parse(tbDelete.Text);
             bt.insert(ref bt.root, deleteValue);
+            tbDelete.Text = "";
             panel1.Refresh();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e) {
             if(bt!=null){
-                /*
-                bt.np = new List<nodePosition>();
-                List<int> childIndex = new List<int>();
-                bt.nodeInorder(ref bt.root, 0,ref childIndex);
-                */
-
                 bt.kp = new List<keyPosition>();
                 bt.inorder(ref bt.root);
 
@@ -60,22 +87,24 @@ namespace Btree
                         maxDepth = bt.kp[i].depth;
                 }
 
-                int[] depthX = new int[maxDepth+1];
+                int[] xDepth = new int[maxDepth+1];
                 int[] lastChildIndex = new int[maxDepth + 1];
                 for (int i = 0; i < maxDepth; i++) {
-                    depthX[i] = 0;
-                    lastChildIndex[i] = -1;
+                    xDepth[i] = 0;
+                    lastChildIndex[i] = -2;
                 }
 
                 for (int i = 0; i < bt.kp.Count; i++) {
                     int y = (bt.kp[i].depth * 50) + 10;                    
                     
-                    int x = depthX[bt.kp[i].depth];
-                    depthX[bt.kp[i].depth] += 30;
-                    if (lastChildIndex[bt.kp[i].depth] != -1 && bt.kp[i].childIndex != lastChildIndex[bt.kp[i].depth]) {
-                        depthX[bt.kp[i].depth] += 30;
-                    }
+                    int x = xDepth[bt.kp[i].depth];
+                    xDepth[bt.kp[i].depth] += 30;
                     lastChildIndex[bt.kp[i].depth] = bt.kp[i].childIndex;
+
+                    // space between node
+                    if (i<bt.kp.Count-1 && lastChildIndex[bt.kp[i + 1].depth] !=-2 && bt.kp[i+1].childIndex != lastChildIndex[bt.kp[i+1].depth]) { //  && bt.kp[i].depth == bt.kp[i+1].depth
+                        xDepth[bt.kp[i+1].depth] += 30;
+                    }
 
                     Console.WriteLine("Key : " + bt.kp[i].key);
                     Console.WriteLine("Depth : " + bt.kp[i].depth);

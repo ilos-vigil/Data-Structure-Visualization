@@ -103,15 +103,16 @@ namespace Btree
         }
 
         public List<keyPosition> kp;
-        public void inorder(ref Bnode root,int depth=0)
+        public void inorder(ref Bnode root,int depth=0, int childIndex=-1)
         {
             if (root != null) {
+                int last=root.n;
                 for (int i = 0; i < root.n; i++) {
-                    inorder(ref root.children[i],depth+1);
-                    kp.Add(new keyPosition(depth, root.keys[i],i));
+                    inorder(ref root.children[i],depth+1,i);
+                    kp.Add(new keyPosition(depth, root.keys[i],childIndex));
                     Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n + " parent.keys[0] : " + (root.parent==null? "-" : root.parent.keys[0].ToString()));
                 }
-                inorder(ref root.children[root.n],depth + 1);
+                inorder(ref root.children[root.n],depth + 1,last);
             }
         }
 

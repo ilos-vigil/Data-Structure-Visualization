@@ -71,27 +71,34 @@
             // 
             // tbInsert
             // 
+            this.tbInsert.Enabled = false;
             this.tbInsert.Location = new System.Drawing.Point(314, 13);
             this.tbInsert.Name = "tbInsert";
             this.tbInsert.Size = new System.Drawing.Size(100, 20);
             this.tbInsert.TabIndex = 3;
+            this.tbInsert.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbInsert_KeyUp);
             // 
             // tbSearch
             // 
+            this.tbSearch.Enabled = false;
             this.tbSearch.Location = new System.Drawing.Point(832, 13);
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(100, 20);
             this.tbSearch.TabIndex = 4;
+            this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyUp);
             // 
             // tbDelete
             // 
+            this.tbDelete.Enabled = false;
             this.tbDelete.Location = new System.Drawing.Point(567, 15);
             this.tbDelete.Name = "tbDelete";
             this.tbDelete.Size = new System.Drawing.Size(100, 20);
             this.tbDelete.TabIndex = 5;
+            this.tbDelete.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbDelete_KeyUp);
             // 
             // btnInsert
             // 
+            this.btnInsert.Enabled = false;
             this.btnInsert.Location = new System.Drawing.Point(420, 13);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(75, 23);
@@ -102,6 +109,7 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.Enabled = false;
             this.btnDelete.Location = new System.Drawing.Point(673, 13);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
@@ -112,6 +120,7 @@
             // 
             // btnSearch
             // 
+            this.btnSearch.Enabled = false;
             this.btnSearch.Location = new System.Drawing.Point(938, 12);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
@@ -136,6 +145,7 @@
             this.tbOrdo.Name = "tbOrdo";
             this.tbOrdo.Size = new System.Drawing.Size(100, 20);
             this.tbOrdo.TabIndex = 10;
+            this.tbOrdo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbOrdo_KeyUp);
             // 
             // label4
             // 
