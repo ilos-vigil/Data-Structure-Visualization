@@ -1,26 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Btree
 {
+    class Kotak{
+        public int x, y;
+        public Pen pen;
+        public Kotak(int x,int y){
+            this.x = x;
+            this.y = y;
+            pen = new Pen(Color.Black);
+        }
+    }
+
+    class Garis {
+        public int x1, y1,x2,y2;
+        public Pen pen;
+        public Garis(int x1, int y1,int x2,int y2) {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+            pen = new Pen(Color.Black);
+        }
+    }
+
     class Btree
     {
-        public Bnode bt;
+        public Bnode root;
         public int m;
 
         public Btree(int m)
         {
-            bt = new Bnode(3);
+            root = new Bnode(m);//,0);
             this.m = m;
         }
 
         public void insert(ref Bnode root, int key)
         {
+            int currentDepth = 0;
+
             if (root == null) {
-                root = new Bnode(m);
+                root = new Bnode(m);//,0);
                 root.insert(key);
             } else {
                 Bnode current = root;
@@ -29,7 +54,7 @@ namespace Btree
                         int position = current.insert(key);
                         while (current.n > current.size) { //overflow
                                                            //split the node
-                            Object[] result = split(ref root, current);
+                            Object[] result = split(ref root, current, currentDepth);
                             //try to insert middle key to parent
                             Bnode newNode = (Bnode)result[0];
                             key = (int)result[1]; //separator
@@ -38,8 +63,10 @@ namespace Btree
                             current.children[position + 1] = newNode;
                         }
                         break;
-                    }       
+                    }
                     current = current.children[current.findPosition(key)];
+
+                    currentDepth++;
                 }
             }
         }
@@ -74,28 +101,41 @@ namespace Btree
                     rebalanceAfterDeletion(ref root, ref current.multiNode, minKeys);
             }
         }
-
+        
         public void inorder(ref Bnode root)
         {
             if (root != null) {
                 for (int i = 0; i < root.n; i++) {
                     inorder(ref root.children[i]);
-                    Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n);
+                    Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n + " parent.keys[0] : " + (root.parent==null? "-" : root.parent.keys[0].ToString()));
                 }
                 inorder(ref root.children[root.n]);
             }
         }
 
+        public List<nodePosition> np;
+        public void nodeInorder(ref Bnode root, int depth, ref List<int> childIndex){
+            if(root!=null){
+                np.Add(new nodePosition(childIndex, depth, root.keys));
+
+                for (int i = 0; i < root.n; i++) {
+                    childIndex.Add(i);
+                    nodeInorder(ref root.children[i],depth+1, ref childIndex);
+                    childIndex.RemoveAt(childIndex.Count - 1);
+                }
+            }
+        }
+
         // other
-        Object[] split(ref Bnode root, Bnode node)
+        Object[] split(ref Bnode root, Bnode node, int currentDepth)
         {
             int mid = node.n / 2;
             if (node.parent == null) {
-                root = new Bnode(m);
+                root = new Bnode(m);//, currentDepth);
                 root.children[0] = node;
                 node.parent = root;
             }
-            Bnode newNode = new Bnode(m);
+            Bnode newNode = new Bnode(m);//, currentDepth);
             newNode.parent = node.parent;
             int nk = 0;
             for (int k = mid + 1; k < node.n; k++, nk++) {
@@ -190,7 +230,5 @@ namespace Btree
             parent.delete(position);
             return left;
         }
-
-
     }
 }

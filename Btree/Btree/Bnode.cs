@@ -13,7 +13,10 @@ namespace Btree
         public Bnode[] children;
         public Bnode parent;
 
-        public Bnode(int m)
+        // for easy draw
+        // public int depth;
+
+        public Bnode(int m)//,int depth)
         { //m is order of multiway tree
             this.size = m - 1;
             this.n = 0;
@@ -21,6 +24,8 @@ namespace Btree
             this.children = new Bnode[this.size + 2];
             this.children[0] = null;
             this.parent = null;
+
+            //this.depth = depth;
         }
 
         public int insert(int key)

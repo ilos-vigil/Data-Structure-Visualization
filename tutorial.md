@@ -1,6 +1,7 @@
 # Convert console to form
 
-1. Add/change to this
+1. Add new form
+2. Add/change to this
 ```cs
 using System.Windows.Forms;
 
@@ -19,7 +20,7 @@ namespace Btree
 }
 
 ```
-2. Right Click on Project > Properties > Set output type "Windows application"
+3. Right Click on Project > Properties > Set output type "Windows application"
 
 # how to use GIT
 
