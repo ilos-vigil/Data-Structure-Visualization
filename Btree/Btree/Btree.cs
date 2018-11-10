@@ -101,18 +101,21 @@ namespace Btree
                     rebalanceAfterDeletion(ref root, ref current.multiNode, minKeys);
             }
         }
-        
-        public void inorder(ref Bnode root)
+
+        public List<keyPosition> kp;
+        public void inorder(ref Bnode root,int depth=0)
         {
             if (root != null) {
                 for (int i = 0; i < root.n; i++) {
-                    inorder(ref root.children[i]);
+                    inorder(ref root.children[i],depth+1);
+                    kp.Add(new keyPosition(depth, root.keys[i],i));
                     Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n + " parent.keys[0] : " + (root.parent==null? "-" : root.parent.keys[0].ToString()));
                 }
-                inorder(ref root.children[root.n]);
+                inorder(ref root.children[root.n],depth + 1);
             }
         }
 
+        /*
         public List<nodePosition> np;
         public void nodeInorder(ref Bnode root, int depth, ref List<int> childIndex){
             if(root!=null){
@@ -125,6 +128,7 @@ namespace Btree
                 }
             }
         }
+        */
 
         // other
         Object[] split(ref Bnode root, Bnode node, int currentDepth)
