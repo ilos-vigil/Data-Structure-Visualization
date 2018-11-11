@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AVL Tree")]
+[assembly: AssemblyTitle("ProjectSDL2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AVL Tree")]
+[assembly: AssemblyProduct("ProjectSDL2")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3c2a83bd-13f4-4c40-bd4a-882c68fe2dc0")]
+[assembly: Guid("2dc02844-18ec-4bc0-9af1-a47781edfd0f")]
 
 // Version information for an assembly consists of the following four values:
 //

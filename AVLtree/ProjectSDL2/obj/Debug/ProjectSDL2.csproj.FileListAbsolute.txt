@@ -1,0 +1,20 @@
+D:\ProjectSDL2\ProjectSDL2\bin\Debug\ProjectSDL2.exe.config
+D:\ProjectSDL2\ProjectSDL2\bin\Debug\ProjectSDL2.exe
+D:\ProjectSDL2\ProjectSDL2\bin\Debug\ProjectSDL2.pdb
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csprojAssemblyReference.cache
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.Properties.Resources.resources
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.GenerateResource.cache
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.CoreCompileInputs.cache
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.exe
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.pdb
+D:\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.Form1.resources
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\bin\Debug\ProjectSDL2.exe.config
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\bin\Debug\ProjectSDL2.exe
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\bin\Debug\ProjectSDL2.pdb
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csprojAssemblyReference.cache
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.Form1.resources
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.Properties.Resources.resources
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.GenerateResource.cache
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.CoreCompileInputs.cache
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.exe
+D:\Project Kuliah\Struktur Data Lanjut\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.pdb
