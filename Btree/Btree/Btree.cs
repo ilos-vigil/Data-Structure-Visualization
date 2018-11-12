@@ -7,28 +7,6 @@ using System.Threading.Tasks;
 
 namespace Btree
 {
-    class Kotak{
-        public int x, y;
-        public Pen pen;
-        public Kotak(int x,int y){
-            this.x = x;
-            this.y = y;
-            pen = new Pen(Color.Black);
-        }
-    }
-
-    class Garis {
-        public int x1, y1,x2,y2;
-        public Pen pen;
-        public Garis(int x1, int y1,int x2,int y2) {
-            this.x1 = x1;
-            this.y1 = y1;
-            this.x2 = x2;
-            this.y2 = y2;
-            pen = new Pen(Color.Black);
-        }
-    }
-
     class Btree
     {
         public Bnode root;
@@ -102,17 +80,18 @@ namespace Btree
             }
         }
 
-        public List<keyPosition> kp;
-        public void inorder(ref Bnode root,int depth=0, int childIndex=-1)
+        // untuk visualisasi
+        public List<keyPosition> keysPosition;
+        public void getKeysPosition(ref Bnode root,int depth=0, int childIndex=-1)
         {
             if (root != null) {
-                int last=root.n;
+                int lastChildIndex=root.n;
                 for (int i = 0; i < root.n; i++) {
-                    inorder(ref root.children[i],depth+1,i);
-                    kp.Add(new keyPosition(depth, root.keys[i],childIndex));
+                    getKeysPosition(ref root.children[i],depth+1,i);
+                    keysPosition.Add(new keyPosition(depth, root.keys[i],childIndex));
                     Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n + " parent.keys[0] : " + (root.parent==null? "-" : root.parent.keys[0].ToString()));
                 }
-                inorder(ref root.children[root.n],depth + 1,last);
+                getKeysPosition(ref root.children[root.n],depth + 1,lastChildIndex);
             }
         }
 

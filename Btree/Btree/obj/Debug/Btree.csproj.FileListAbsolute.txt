@@ -28,3 +28,12 @@ D:\Sandy\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csp
 D:\Sandy\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csproj.CoreCompileInputs.cache
 D:\Sandy\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.exe
 D:\Sandy\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.pdb
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\bin\Debug\Btree.exe.config
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\bin\Debug\Btree.exe
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\bin\Debug\Btree.pdb
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csprojAssemblyReference.cache
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.Form1.resources
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csproj.GenerateResource.cache
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csproj.CoreCompileInputs.cache
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.exe
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.pdb
