@@ -80,7 +80,7 @@ namespace Btree
 
         private void panel1_Paint(object sender, PaintEventArgs e) {
             if(bt!=null){
-                List<Rectangle> keysContainer = new List<Rectangle>();
+                List<KeyContainer> keysContainer = new List<KeyContainer>();
                 List<NodeContainer> nodeContainer = new List<NodeContainer>();
                 // List<String> keys = new List<String>();
                 List<linePosition> lines = new List<linePosition>();
@@ -121,7 +121,7 @@ namespace Btree
                     Console.WriteLine("X : " + x);
                     Console.WriteLine("Child index : " + bt.keysPosition[i].childIndex);
 
-                    keysContainer.Add(new Rectangle(x, y, 30, 30));
+                    keysContainer.Add(new KeyContainer(x, y, x+30, y+30));
                 }
 
                 // draw
@@ -131,26 +131,31 @@ namespace Btree
 
                 // draw keys & keys container
                 for (int i = 0; i < bt.keysPosition.Count; i++) {
-                    e.Graphics.DrawRectangle(p, keysContainer[i]);
-                    e.Graphics.DrawString(bt.keysPosition[i].key.ToString(), f, b, keysContainer[i].X, keysContainer[i].Y);
+                    Rectangle keyContainer = new Rectangle(keysContainer[i].x1, keysContainer[i].y1, 30,30);
+                    e.Graphics.DrawRectangle(p, keyContainer);
+                    e.Graphics.DrawString(bt.keysPosition[i].key.ToString(), f, b, keysContainer[i].x1, keysContainer[i].y1);
                 }
 
                 // prepare line
-                keysContainer.OrderBy(rect => rect.Y).ThenBy(rect => rect.X); // sort Y,X
+                keysContainer.Sort(new CompareKeyContainer()); // sort Y,X
                 bool changeNode = false;
                 int startX=-1,endX=-1,currentDepth=-1,keysCount=1;
                 for (int i = 0; i < keysContainer.Count; i++) {
-                    Rectangle currentKeysContainer = keysContainer[i];
+                    Rectangle currentKeysContainer = new Rectangle(keysContainer[i].x1, keysContainer[i].y1, 30,30);
+                    Rectangle nextKeysContainer = new Rectangle(0,0,0,0);
+                    if (i < keysContainer.Count - 1) {
+                        nextKeysContainer = new Rectangle(keysContainer[i + 1].x1, keysContainer[i + 1].y1, 30, 30);
+                    }
                     currentKeysContainer.Width += 1;
-                    if (i < keysContainer.Count-1 && currentKeysContainer.IntersectsWith(keysContainer[i + 1])) {
-                        if (startX == -1) startX = keysContainer[i].X;
-                        currentDepth = (keysContainer[i].Y - 10) / 50;
+                    if (i < keysContainer.Count-1 && currentKeysContainer.IntersectsWith(nextKeysContainer)) {
+                        if (startX == -1) startX = keysContainer[i].x1;
+                        currentDepth = (keysContainer[i].y1 - 10) / 50;
                         Console.WriteLine("Intersect");
-                        endX = keysContainer[i + 1].X + 30;
+                        endX = keysContainer[i + 1].x1 + 30;
                         keysCount++;
                     } else {
                         if(i==keysContainer.Count-1 || startX == -1) {
-                            nodeContainer.Add(new NodeContainer(keysContainer[i].X,keysContainer[i].X+30,(keysContainer[i].Y-10)/50,1));
+                            nodeContainer.Add(new NodeContainer(keysContainer[i].x1,keysContainer[i].x2,(keysContainer[i].y1-10)/50,1));
                         } else {
                             nodeContainer.Add(new NodeContainer(startX, endX, currentDepth, keysCount));
                         }
@@ -164,6 +169,7 @@ namespace Btree
                 }
 
                 // set line
+                nodeContainer.Sort(new CompareNodeContainer());
                 int lastDepth=0,nodeIndexAtDepth = -1,totalKeysAtDepth=0;
                 for (int i = 0; i < nodeContainer.Count; i++) {
                     if (nodeContainer[i].depth < maxDepth) {
