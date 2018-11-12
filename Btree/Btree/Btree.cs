@@ -81,14 +81,14 @@ namespace Btree
         }
 
         // untuk visualisasi
-        public List<keyPosition> keysPosition;
+        public List<KeyPosition> keysPosition;
         public void getKeysPosition(ref Bnode root,int depth=0, int childIndex=-1)
         {
             if (root != null) {
                 int lastChildIndex=root.n;
                 for (int i = 0; i < root.n; i++) {
                     getKeysPosition(ref root.children[i],depth+1,i);
-                    keysPosition.Add(new keyPosition(depth, root.keys[i],childIndex));
+                    keysPosition.Add(new KeyPosition(depth, root.keys[i],childIndex));
                     Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n + " parent.keys[0] : " + (root.parent==null? "-" : root.parent.keys[0].ToString()));
                 }
                 getKeysPosition(ref root.children[root.n],depth + 1,lastChildIndex);
