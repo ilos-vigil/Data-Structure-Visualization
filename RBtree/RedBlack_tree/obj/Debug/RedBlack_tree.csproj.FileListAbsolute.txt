@@ -1,7 +1,0 @@
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\bin\Debug\RedBlack_tree.exe.config
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\bin\Debug\RedBlack_tree.exe
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\bin\Debug\RedBlack_tree.pdb
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\obj\Debug\RedBlack_tree.csprojAssemblyReference.cache
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\obj\Debug\RedBlack_tree.csproj.CoreCompileInputs.cache
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\obj\Debug\RedBlack_tree.exe
-C:\Users\owner\Documents\6647\Struktur Data Lanjut\RedBlack_tree\RedBlack_tree\obj\Debug\RedBlack_tree.pdb

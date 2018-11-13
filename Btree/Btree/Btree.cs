@@ -188,37 +188,13 @@ namespace Btree {
          */
 
 
-        // untuk visualisasi keys 
-        public List<KeyPosition> keysPosition;
-        public void getKeysPosition(ref Bnode root, int depth = 0, int childIndex = -1) {
-            if (root != null) {
-                int lastChildIndex = root.n;
-                for (int i = 0; i < root.n; i++) {
-                    getKeysPosition(ref root.children[i], depth + 1, i);
-                    keysPosition.Add(new KeyPosition(depth, root.keys[i], childIndex));
-                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
-                }
-                getKeysPosition(ref root.children[root.n], depth + 1, lastChildIndex);
-            }
-        }
-
-        // untuk visualisasi node/line, unused
-        public List<NodeContainer> nodesContainer;
-        public void getNodesContainer(ref Bnode root, int depth = 0, int childIndex = -1) {
-            if (root != null) {
-                nodesContainer.Add(new NodeContainer(depth, childIndex, root.n));
-                for (int i = 0; i < root.n; i++) {
-                    getNodesContainer(ref root.children[i], depth + 1, i);
-                }
-            }
-        }
-
         // prototype visualisasi
-        int maxDepth;
+        public int maxDepth;//,totalNode=0;
         List<FakeBNode> fakeBNodes;
         public List<FakeBNode> getFakeBNodes() {
             fakeBNodes = new List<FakeBNode>();
             maxDepth = 0; getMaxDepth(ref root);
+            // Console.WriteLine("NODE COUNTTTTTTTTT : " + getNodeCount(ref root,ref totalNode));
             int[] traverseIndex = new int[maxDepth+1];
 
             getFakeBNodes(ref root, ref traverseIndex);
@@ -238,6 +214,18 @@ namespace Btree {
                 }
             }
         }
+
+        /*
+        public int getNodeCount(ref Bnode root, ref int count) {
+            if (root != null) {
+                count++;
+                for (int i = 0; i < root.n; i++) {
+                    getMaxDepth(ref root.children[i],count);
+                }
+            }
+            return count;
+        }
+        */
 
         // BUG : insert keys & traverseIndex
         public void getFakeBNodes(ref Bnode root,ref int[] traverseIndex, int depth = 0) {
