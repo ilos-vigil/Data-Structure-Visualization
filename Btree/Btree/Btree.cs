@@ -5,21 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Btree
-{
-    class Btree
-    {
+namespace Btree {
+    class Btree {
         public Bnode root;
         public int m;
 
-        public Btree(int m)
-        {
+        public Btree(int m) {
             root = new Bnode(m);//,0);
             this.m = m;
         }
 
-        public void insert(ref Bnode root, int key)
-        {
+        public void insert(ref Bnode root, int key) {
             int currentDepth = 0;
 
             if (root == null) {
@@ -49,8 +45,17 @@ namespace Btree
             }
         }
 
-        public void delete(ref Bnode root, int key)
-        {
+        public void inorder(ref Bnode root) {
+            if (root != null) {
+                for (int i = 0; i < root.n; i++) {
+                    inorder(ref root.children[i]);
+                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
+                }
+                inorder(ref root.children[root.n]);
+            }
+        }
+
+        public void delete(ref Bnode root, int key) {
             Node current = find(root, key);
             if (current != null) {
                 if (current.multiNode.children[current.position] != null) {
@@ -80,50 +85,8 @@ namespace Btree
             }
         }
 
-        // untuk visualisasi keys 
-        public List<KeyPosition> keysPosition;
-        public void getKeysPosition(ref Bnode root,int depth=0, int childIndex=-1)
-        {
-            if (root != null) {
-                int lastChildIndex=root.n;
-                for (int i = 0; i < root.n; i++) {
-                    getKeysPosition(ref root.children[i],depth+1,i);
-                    keysPosition.Add(new KeyPosition(depth, root.keys[i],childIndex));
-                    Console.WriteLine("Keys : "+root.keys[i] + " n : "+root.n + " parent.keys[0] : " + (root.parent==null? "-" : root.parent.keys[0].ToString()));
-                }
-                getKeysPosition(ref root.children[root.n],depth + 1,lastChildIndex);
-            }
-        }
-
-        // untuk visualisasi node/line
-        public List<NodeContainer> nodesContainer;
-        public void getNodesContainer(ref Bnode root, int depth = 0, int childIndex = -1) {
-            if (root != null) {
-                nodesContainer.Add(new NodeContainer(depth, childIndex,root.n));
-                for (int i = 0; i < root.n; i++) {
-                    getNodesContainer(ref root.children[i], depth + 1, i);
-                }
-            }
-        }
-
-        /*
-        public List<nodePosition> np;
-        public void nodeInorder(ref Bnode root, int depth, ref List<int> childIndex){
-            if(root!=null){
-                np.Add(new nodePosition(childIndex, depth, root.keys));
-
-                for (int i = 0; i < root.n; i++) {
-                    childIndex.Add(i);
-                    nodeInorder(ref root.children[i],depth+1, ref childIndex);
-                    childIndex.RemoveAt(childIndex.Count - 1);
-                }
-            }
-        }
-        */
-
         // other
-        Object[] split(ref Bnode root, Bnode node, int currentDepth)
-        {
+        Object[] split(ref Bnode root, Bnode node, int currentDepth) {
             int mid = node.n / 2;
             if (node.parent == null) {
                 root = new Bnode(m);//, currentDepth);
@@ -142,15 +105,13 @@ namespace Btree
             return new Object[] { newNode, node.keys[mid] };
         }
 
-        void moveParent(Bnode parent, int position, Bnode child)
-        {
+        void moveParent(Bnode parent, int position, Bnode child) {
             parent.children[position] = child;
             if (child != null)
                 child.parent = parent;
         }
 
-        Node find(Bnode root, int key)
-        {
+        Node find(Bnode root, int key) {
             Bnode current = root;
             while (current != null) {
                 int position = current.findPosition(key);
@@ -162,8 +123,7 @@ namespace Btree
             return null; //not found
         }
 
-        bool rebalanceAfterDeletion(ref Bnode root,ref Bnode current, int minKeys)
-        {
+        bool rebalanceAfterDeletion(ref Bnode root, ref Bnode current, int minKeys) {
             Bnode parent = current.parent;
             int i = parent.findChild(current);
             //case 1: look at left sibling
@@ -185,13 +145,13 @@ namespace Btree
             if (parent.n == 0 && parent == root) {
                 root = current;
                 current.parent = null;
-            } else current = parent;
+            } else
+                current = parent;
             return false;
         }
 
 
-        void leftRotate(Bnode parent, int position)
-        {
+        void leftRotate(Bnode parent, int position) {
             Bnode left = parent.children[position];
             Bnode right = parent.children[position + 1];
             int newPosition = left.insert(parent.keys[position]);
@@ -201,8 +161,7 @@ namespace Btree
             right.delete(0);
         }
 
-        void rightRotate(Bnode parent, int position)
-        {
+        void rightRotate(Bnode parent, int position) {
             Bnode left = parent.children[position];
             Bnode right = parent.children[position + 1];
             int newPosition = right.insert(parent.keys[position]);
@@ -212,8 +171,7 @@ namespace Btree
             left.n--;
         }
 
-        Bnode merge(Bnode parent, int position)
-        {
+        Bnode merge(Bnode parent, int position) {
             Bnode left = parent.children[position];
             Bnode right = parent.children[position + 1];
             int newPosition = left.insert(parent.keys[position]);
@@ -224,6 +182,89 @@ namespace Btree
             }
             parent.delete(position);
             return left;
+        }
+
+        /* Untuk visualisasi
+         */
+
+
+        // untuk visualisasi keys 
+        public List<KeyPosition> keysPosition;
+        public void getKeysPosition(ref Bnode root, int depth = 0, int childIndex = -1) {
+            if (root != null) {
+                int lastChildIndex = root.n;
+                for (int i = 0; i < root.n; i++) {
+                    getKeysPosition(ref root.children[i], depth + 1, i);
+                    keysPosition.Add(new KeyPosition(depth, root.keys[i], childIndex));
+                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
+                }
+                getKeysPosition(ref root.children[root.n], depth + 1, lastChildIndex);
+            }
+        }
+
+        // untuk visualisasi node/line, unused
+        public List<NodeContainer> nodesContainer;
+        public void getNodesContainer(ref Bnode root, int depth = 0, int childIndex = -1) {
+            if (root != null) {
+                nodesContainer.Add(new NodeContainer(depth, childIndex, root.n));
+                for (int i = 0; i < root.n; i++) {
+                    getNodesContainer(ref root.children[i], depth + 1, i);
+                }
+            }
+        }
+
+        // prototype visualisasi
+        int maxDepth;
+        List<FakeBNode> fakeBNodes;
+        public List<FakeBNode> getFakeBNodes() {
+            fakeBNodes = new List<FakeBNode>();
+            maxDepth = 0; getMaxDepth(ref root);
+            int[] traverseIndex = new int[maxDepth+1];
+
+            getFakeBNodes(ref root, ref traverseIndex);
+            fakeBNodes.Sort(new CompareFakeBNode());
+
+            return fakeBNodes;
+        }
+
+        public void getMaxDepth(ref Bnode root, int depth=0){
+            if(root!=null){
+                if(depth>maxDepth){
+                    maxDepth = depth;
+                }
+
+                for (int i = 0; i < root.n; i++) {
+                    getMaxDepth(ref root.children[i], depth + 1);
+                }
+            }
+        }
+
+        // BUG : insert keys & traverseIndex
+        public void getFakeBNodes(ref Bnode root,ref int[] traverseIndex, int depth = 0) {
+            if(root!=null){
+                // get childCount & recursive
+                int childCount = 0;
+                for (int i = 0; i < root.n+1; i++) {
+                    if(root.children[i]!=null){
+                        childCount++;
+                        traverseIndex[depth] = i;
+                        getFakeBNodes(ref root.children[i], ref traverseIndex, depth + 1);
+                    }
+                }
+
+                // add to fakeBNodes
+                fakeBNodes.Add(new FakeBNode(depth, root.n, root.keys, traverseIndex, childCount));
+
+                // debug
+                Console.WriteLine("---Start---");
+                Console.WriteLine("Depth : " + depth);
+                Console.WriteLine("Bnode.n : " + root.n);
+                Console.WriteLine("Child count : " + childCount);
+                for (int i = 0; i < root.n; i++) {
+                    Console.WriteLine("root.keys ke-" + i + "=" + root.keys[i]);
+                }
+                Console.WriteLine("----End----");
+            }
         }
     }
 }

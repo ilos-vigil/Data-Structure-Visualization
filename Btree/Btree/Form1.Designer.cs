@@ -76,7 +76,7 @@
             this.tbInsert.Name = "tbInsert";
             this.tbInsert.Size = new System.Drawing.Size(100, 20);
             this.tbInsert.TabIndex = 3;
-            this.tbInsert.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbInsert_KeyUp);
+            this.tbInsert.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbInsert_KeyUp);
             // 
             // tbSearch
             // 
@@ -85,7 +85,7 @@
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(100, 20);
             this.tbSearch.TabIndex = 4;
-            this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyUp);
+            this.tbSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbSearch_KeyUp);
             // 
             // tbDelete
             // 
@@ -94,7 +94,7 @@
             this.tbDelete.Name = "tbDelete";
             this.tbDelete.Size = new System.Drawing.Size(100, 20);
             this.tbDelete.TabIndex = 5;
-            this.tbDelete.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbDelete_KeyUp);
+            this.tbDelete.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbDelete_KeyUp);
             // 
             // btnInsert
             // 
@@ -105,7 +105,7 @@
             this.btnInsert.TabIndex = 6;
             this.btnInsert.Text = "Insert";
             this.btnInsert.UseVisualStyleBackColor = true;
-            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            this.btnInsert.Click += new System.EventHandler(this.BtnInsert_Click);
             // 
             // btnDelete
             // 
@@ -116,7 +116,7 @@
             this.btnDelete.TabIndex = 7;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // btnSearch
             // 
@@ -127,7 +127,7 @@
             this.btnSearch.TabIndex = 8;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // btnOrdo
             // 
@@ -137,7 +137,7 @@
             this.btnOrdo.TabIndex = 11;
             this.btnOrdo.Text = "Set Ordo";
             this.btnOrdo.UseVisualStyleBackColor = true;
-            this.btnOrdo.Click += new System.EventHandler(this.btnOrdo_Click);
+            this.btnOrdo.Click += new System.EventHandler(this.BtnOrdo_Click);
             // 
             // tbOrdo
             // 
@@ -145,7 +145,7 @@
             this.tbOrdo.Name = "tbOrdo";
             this.tbOrdo.Size = new System.Drawing.Size(100, 20);
             this.tbOrdo.TabIndex = 10;
-            this.tbOrdo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbOrdo_KeyUp);
+            this.tbOrdo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TbOrdo_KeyUp);
             // 
             // label4
             // 
@@ -162,7 +162,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(854, 480);
             this.panel1.TabIndex = 12;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1_Paint);
             // 
             // Form1
             // 
