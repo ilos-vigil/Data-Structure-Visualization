@@ -7,19 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Btree {
-    public class NodePosition {
-        public int depth;
-        // public List<int> totalParentsChild = new List<int>();
-        public List<int> childIndex = new List<int>();
-        public int[] keys;
-
-        public NodePosition(List<int> childIndex, int depth, int[] keys){
-            this.depth = depth;
-            this.childIndex = childIndex;
-            this.keys = keys;
-        }
-    }
-
     public class KeyPosition{
         public int depth, key,childIndex;
 
@@ -44,13 +31,19 @@ namespace Btree {
 
     public class NodeContainer
     {
-        public int x1, x2, depth, keysCount;
+        public int x1, x2, depth, keysCount, childIndex;
 
         public NodeContainer(int x1,int x2,int depth, int keysCount)
         {
             this.x1 = x1;
             this.x2 = x2;
             this.depth = depth;
+            this.keysCount = keysCount;
+        }
+
+        public NodeContainer(int depth, int childIndex, int keysCount) {
+            this.depth = depth;
+            this.childIndex = childIndex;
             this.keysCount = keysCount;
         }
     }

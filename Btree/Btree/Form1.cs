@@ -137,28 +137,51 @@ namespace Btree
                 }
 
                 // prepare line
+                /*
+                bt.nodesContainer = new List<NodeContainer>();
+                bt.getNodesContainer(ref bt.root);
+                */                
                 keysContainer.Sort(new CompareKeyContainer()); // sort Y,X
                 bool changeNode = false;
                 int startX=-1,endX=-1,currentDepth=-1,keysCount=1;
                 for (int i = 0; i < keysContainer.Count; i++) {
                     Rectangle currentKeysContainer = new Rectangle(keysContainer[i].x1, keysContainer[i].y1, 30,30);
-                    Rectangle nextKeysContainer = new Rectangle(0,0,0,0);
-                    if (i < keysContainer.Count - 1) {
-                        nextKeysContainer = new Rectangle(keysContainer[i + 1].x1, keysContainer[i + 1].y1, 30, 30);
-                    }
                     currentKeysContainer.Width += 1;
+                    Rectangle nextKeysContainer = new Rectangle(0, 0, 0, 0);
+                    if (i < keysContainer.Count - 1) {
+                        nextKeysContainer = new Rectangle(keysContainer[i+1].x1, keysContainer[i+1].y1, 30, 30);
+                    }
+
                     if (i < keysContainer.Count-1 && currentKeysContainer.IntersectsWith(nextKeysContainer)) {
                         if (startX == -1) startX = keysContainer[i].x1;
                         currentDepth = (keysContainer[i].y1 - 10) / 50;
-                        Console.WriteLine("Intersect");
-                        endX = keysContainer[i + 1].x1 + 30;
+                        endX = keysContainer[i + 1].x2;
                         keysCount++;
-                    } else {
-                        if(i==keysContainer.Count-1 || startX == -1) {
+                        Console.WriteLine("Intersect");
+                    } else if(i < keysContainer.Count - 1 && !currentKeysContainer.IntersectsWith(nextKeysContainer) && startX!=-1) {
+                        nodeContainer.Add(new NodeContainer(startX, endX, currentDepth, keysCount));
+                        startX = -1;
+                        endX = -1;
+                        currentDepth = -1;
+                        keysCount = 1;
+                    } else if (i < keysContainer.Count - 1 && !currentKeysContainer.IntersectsWith(nextKeysContainer) && startX == -1) {
+                        nodeContainer.Add(new NodeContainer(keysContainer[i].x1, keysContainer[i].x2, (keysContainer[i].y1 - 10) / 50, 1));
+                        startX = -1;
+                        endX = -1;
+                        currentDepth = -1;
+                        keysCount = 1;
+                    } else if(i==keysContainer.Count-1 && startX==-1) {
                             nodeContainer.Add(new NodeContainer(keysContainer[i].x1,keysContainer[i].x2,(keysContainer[i].y1-10)/50,1));
-                        } else {
-                            nodeContainer.Add(new NodeContainer(startX, endX, currentDepth, keysCount));
-                        }
+                            startX = -1;
+                            endX = -1;
+                            currentDepth = -1;
+                            keysCount = 1;
+                    } else {
+                        nodeContainer.Add(new NodeContainer(startX, endX, currentDepth, keysCount));
+                        startX = -1;
+                        endX = -1;
+                        currentDepth = -1;
+                        keysCount = 1;
                     }
                 }
 
