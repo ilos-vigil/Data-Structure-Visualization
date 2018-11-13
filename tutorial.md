@@ -22,13 +22,13 @@ namespace Btree
 ```
 3. Right Click on Project > Properties > Set output type "Windows application"
 
-# how to use GIT
+# How to use GIT
 
-## first time configuration
+## First Time Configuration
 1. git config --global user.email <your email>
 2. git config --global user.name <your name>
 
-## first time init
+## First time - init
 
 1. git init .
 2. git remote add <link name> <repisitory link>
@@ -36,7 +36,7 @@ namespace Btree
 3. git pull <link nama> <branch name>
     * git pull origin master
 
-## commit & push
+## Commit & push
 
 1. git add .
 2. git commit -m "<nama commit>"
@@ -44,12 +44,12 @@ namespace Btree
 3. git push <link name> <branch name>
     * git push origin master
 
-## extra syntax
+## Extra Syntax
 
-* git log
-* git status
+* git log - lihat semua commit yang ada di local
+* git status - lihat status (file yang diubah, file yang belum di add, file yang sudah di add, dll)
 
-## list error & fix
+## List error & Fix
 
 * error: failed to push some refs to 'https://sandykho47@bitbucket.org/sandykho47/sdl.git'
     * git pull --rebase origin master
@@ -57,7 +57,12 @@ namespace Btree
 * remove remote url
     * git remote rm <remote name>
 
-## link ref
+## Extra
+
+* Only push latest commit to remote repisitory
+    * git push origin HEAD:master
+
+## Link Ref
 * https://medium.com/learn-git-today/the-ultimate-git-guide-to-creating-your-first-repo-b50762a6ab00
 * https://stackoverflow.com/questions/24114676/git-error-failed-to-push-some-refs-to
 * https://help.github.com/articles/removing-a-remote/
