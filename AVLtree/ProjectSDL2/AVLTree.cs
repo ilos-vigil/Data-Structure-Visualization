@@ -12,9 +12,10 @@ namespace ProjectSDL2
     {
         public NodeAVL root;
         public Dictionary<string, Lingkaran> lingkaran = new Dictionary<string, Lingkaran>();
-       
+        public Dictionary<string, Garis> garis = new Dictionary<string, Garis>();
 
-        int ctrGaris=1;
+
+        int ctrGaris =1;
         int ctrLingkaran=1;
         Form1 parent;
         public AVLTree(Form1 parent)
@@ -27,6 +28,7 @@ namespace ProjectSDL2
         {
             search(ref root, value);
             insertion(ref root, value, 484, 34);
+            inOrderHelper();
         }
         public Boolean insertion(ref NodeAVL root, int key,int x,int y)
         {
@@ -63,10 +65,10 @@ namespace ProjectSDL2
             {
                 parent.status.Text = "Root is null";
                 Application.DoEvents();
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 parent.status.Text = "Insert "+ value + " at root";
                 Application.DoEvents();
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 parent.insertBtn.Enabled = true;
                 parent.searchBtn.Enabled = true;
                 parent.deleteBtn.Enabled = true;
@@ -92,7 +94,7 @@ namespace ProjectSDL2
                     else
                         parent.status.Text = "Insert " + value + " left of " + temp.value + "child";
                     Application.DoEvents();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     temp = temp.left;
                 }
                 else
@@ -102,7 +104,7 @@ namespace ProjectSDL2
                     else
                         parent.status.Text = "Insert " + value + " right of " + temp.value + "child";
                     Application.DoEvents();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     temp = temp.right;
                 }
 
@@ -125,7 +127,7 @@ namespace ProjectSDL2
         {
             parent.status.Text = "Left Rotation on Node "+p.value;
             Application.DoEvents();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             NodeAVL q = p.right;
             p.right = q.left;
             q.left = p;
@@ -139,7 +141,7 @@ namespace ProjectSDL2
         {
             parent.status.Text = "Right Rotation on Node "+ q.value;
             Application.DoEvents();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             NodeAVL p = q.left;
             q.left = p.right;
             p.right = q;
@@ -203,19 +205,37 @@ namespace ProjectSDL2
         public void inOrderHelper()
         {
             lingkaran.Clear();
+            garis.Clear();
             ctrLingkaran = 1;
+            ctrGaris = 1;
             inOrderClear(ref this.root,484,34);
         }
         public void inOrderClear(ref NodeAVL root,int x,int y)
         {
             if (root == null) return;
             inOrderClear(ref root.left, x - 50, y + 50);
+
             Console.WriteLine(root.value);
             lingkaran.Add("lingkaran" + ctrLingkaran, new Lingkaran(x, y,root.value.ToString(),root.balanceFactor));
             root.idLingkaran = "lingkaran" + ctrLingkaran;
             ctrLingkaran++;
             parent.pictureBox1.Invalidate();
             Application.DoEvents();
+             if (root.left != null)
+            {
+                garis.Add("garis" + ctrGaris, new Garis(x, y+25, x - 25, y + 50));
+                ctrGaris++;
+                parent.pictureBox1.Invalidate();
+            }
+
+            if (root.right != null)
+            {
+                garis.Add("garis" + ctrGaris, new Garis(x+40, y+25, x + 75, y + 50));
+                ctrGaris++;
+                parent.pictureBox1.Invalidate();
+            }
+
+
             inOrderClear(ref root.right, x + 50, y + 50);
         }
       

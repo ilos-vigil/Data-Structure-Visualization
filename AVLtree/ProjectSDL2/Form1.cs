@@ -30,6 +30,10 @@ namespace ProjectSDL2
                 e.Graphics.DrawString(item.value, new Font("Arial",16), temp,new Point(item.x+8,item.y+10));
                 e.Graphics.DrawString(item.balanceFactor.ToString(), new Font("Arial", 16), temp, new Point(item.x + 38, item.y + 10));
             }   
+            foreach(var item in avl.garis.Values)
+            {
+                e.Graphics.DrawLine(new Pen(Color.Black), item.x1, item.y1, item.x2, item.y2);
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
