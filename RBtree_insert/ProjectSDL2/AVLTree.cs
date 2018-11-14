@@ -27,7 +27,7 @@ namespace ProjectSDL2
             NodeAVL newnode = new NodeAVL(key);
             if (root == null)
             {
-                root = newnode;
+                root = new NodeAVL(key, "lingkaran" + (ctrLingkaran - 1));
                 root.x = x;
                 root.y = y;
                 root.color = Color.Black;
