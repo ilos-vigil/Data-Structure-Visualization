@@ -184,23 +184,37 @@ namespace Btree {
             return left;
         }
 
-        /* Untuk visualisasi
-         */
-
-
         // prototype visualisasi
-        public int maxDepth;//,totalNode=0;
+        public int maxDepth;
         List<FakeBNode> fakeBNodes;
+        int nodeCount;
+        int nodeIndex;
+        int ctr;
+        int[][] traverseIndex;
         public List<FakeBNode> getFakeBNodes() {
+            nodeCount = 0;
+            ctr = 0;
             fakeBNodes = new List<FakeBNode>();
-            maxDepth = 0; getMaxDepth(ref root);
-            // Console.WriteLine("NODE COUNTTTTTTTTT : " + getNodeCount(ref root,ref totalNode));
-            int[] traverseIndex = new int[maxDepth+1];
+            maxDepth = 0;
 
-            getFakeBNodes(ref root, ref traverseIndex);
+            getMaxDepth(ref root);
+            getNodeCount(ref root);
+            traverseIndex = new int[nodeCount][];
+            Console.WriteLine("NODE COUNTTTTTTTTT : " + nodeCount);
+
+            getFakeBNodes(ref root);
             fakeBNodes.Sort(new CompareFakeBNode());
-
+            printFake();
             return fakeBNodes;
+        }
+
+        public void printFake(){
+            for (int i = 0; i < fakeBNodes.Count(); i++) {
+                Console.WriteLine("\nfake nodes traverse index");
+                for (int j = 0; j < fakeBNodes[i].traverseIndex.Count(); j++) {
+                    Console.Write(fakeBNodes[i].traverseIndex[j] + " ");
+                }
+            }
         }
 
         public void getMaxDepth(ref Bnode root, int depth=0){
@@ -214,37 +228,49 @@ namespace Btree {
                 }
             }
         }
-
-        /*
-        public int getNodeCount(ref Bnode root, ref int count) {
+        
+        public void getNodeCount(ref Bnode root) {
             if (root != null) {
-                count++;
-                for (int i = 0; i < root.n; i++) {
-                    getMaxDepth(ref root.children[i],count);
+                nodeCount++;
+                for (int i = 0; i < root.n+1; i++) {
+                    getNodeCount(ref root.children[i]);
                 }
             }
-            return count;
         }
-        */
 
         // BUG : insert keys & traverseIndex
-        public void getFakeBNodes(ref Bnode root,ref int[] traverseIndex, int depth = 0) {
+        public void getFakeBNodes(ref Bnode root, int parentIndex=-1, int traverseWay=-1, int depth = 0) {
             if(root!=null){
+                int nodeCtr = ctr;
+                ctr++;
+                if(parentIndex==-1){
+                    traverseIndex[nodeCtr] = new int[1];
+                    traverseIndex[nodeCtr][0] = -1;
+                }else{
+                    if(traverseIndex[parentIndex][0]==-1){
+                        traverseIndex[nodeCtr] = new int[1];
+                        traverseIndex[nodeCtr][0] = traverseWay;
+                    }else{
+                        traverseIndex[nodeCtr] = new int[traverseIndex[parentIndex].Count()+1];
+                        for (int i = 0; i < traverseIndex[parentIndex].Count(); i++) {
+                            traverseIndex[nodeCtr][i] = traverseIndex[parentIndex][i];
+                        }
+                        traverseIndex[nodeCtr][traverseIndex[nodeCtr].Count() - 1] = traverseWay;
+                    }
+                }
                 // get childCount & recursive
                 int childCount = 0;
                 for (int i = 0; i < root.n+1; i++) {
                     if(root.children[i]!=null){
                         childCount++;
-                        traverseIndex[depth] = i;
-                        getFakeBNodes(ref root.children[i], ref traverseIndex, depth + 1);
+                        getFakeBNodes(ref root.children[i], nodeCtr, i,depth + 1);
                     }
                 }
 
                 // add to fakeBNodes
-                fakeBNodes.Add(new FakeBNode(depth, root.n, root.keys, traverseIndex, childCount));
+                fakeBNodes.Add(new FakeBNode(depth, root.n, root.keys, traverseIndex[nodeCtr], childCount));
 
-                // debug
-                /*
+                /* debug
                 Console.WriteLine("---Start---");
                 Console.WriteLine("Depth : " + depth);
                 Console.WriteLine("Bnode.n : " + root.n);

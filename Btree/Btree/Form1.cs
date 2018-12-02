@@ -11,11 +11,8 @@ using System.Windows.Forms;
 namespace Btree {
     public partial class Form1 : Form {
         /* List bug :
-         * bug posisi ketika parent punya 2 child (total 3 node)
          * bug search kotak/string
          * bug search line
-         * posisi gambar mulai dari kiri
-         * 
          */
         Btree bt;
         bool onSearch;
@@ -108,6 +105,7 @@ namespace Btree {
 
                 // to be drawn
                 List<Rectangle> nodeRectangle = new List<Rectangle>();
+                List<int> nodeKey = new List<int>();
                 List<LinePosition> lines = new List<LinePosition>();
 
                 // for search
@@ -118,6 +116,10 @@ namespace Btree {
                 const int RECTANGLE_SIZE = 30, RECTANGLE_Y_DISTANCE = 20;// RECTANGLE_SIZE also used as RECTANGLE_X_DISTANCE
 
                 List<FakeBNode> fakeBNodes = bt.getFakeBNodes();
+
+                // to make things on center
+                int[] endX = new int[bt.maxDepth + 1];
+                int[] extraX = new int[bt.maxDepth + 1];
 
                 int lastDepth = 0;
                 int[] keysCount = new int[bt.maxDepth + 1], nodeCount = new int[bt.maxDepth + 1], childCount = new int[bt.maxDepth + 1];
@@ -139,41 +141,11 @@ namespace Btree {
                     }
 
                     for (int a = 0; a < fakeBNodes[i].keysCount; a++) {
-                        // step 2. set key position & draw key + rectangle
+                        // step 2. set key/rectangle position
                         int x = (keysCount[lastDepth] - fakeBNodes[i].keysCount + a) * RECTANGLE_SIZE + nodeCount[lastDepth] * RECTANGLE_SIZE;
                         int y = lastDepth * (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
-                        bool isCorrelated = false; // only used when on searcg
-
-                        if (onSearch) {
-                            // jika value sama
-                            if (fakeBNodes[i].keys[a] == searchValue) {
-                                isCorrelated = true;
-                            }
-                            // parent && value diantara
-                            if (a < fakeBNodes[i].keysCount - 1 && searchValue > fakeBNodes[i].keys[a] && searchValue < fakeBNodes[i].keys[a + 1]) {
-                                isCorrelated = true;
-                            }
-                            if (a > 0 && searchValue > fakeBNodes[i].keys[a - 1] && searchValue < fakeBNodes[i].keys[a]) {
-                                isCorrelated = true;
-                            }
-                            // parent && value lebih besar - buggy
-                            if(fakeBNodes[i].depth < bt.maxDepth && a == fakeBNodes[i].keysCount - 1 && searchValue > fakeBNodes[i].keys[a]){
-                                isCorrelated = true;
-                            }
-                            // parent && value lebih kecil - buggy
-                            if (fakeBNodes[i].depth < bt.maxDepth && a == 0 && searchValue < fakeBNodes[i].keys[a]) {
-                                isCorrelated = true;
-                            }
-                        }
-
-                        if (isCorrelated) {
-                            nodeRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
-                            e.Graphics.DrawRectangle(ps, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                            e.Graphics.DrawString(fakeBNodes[i].keys[a].ToString(), fs, b, x, y);
-                        } else {
-                            e.Graphics.DrawRectangle(p, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                            e.Graphics.DrawString(fakeBNodes[i].keys[a].ToString(), f, b, x, y);
-                        }
+                        nodeRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
+                        nodeKey.Add(fakeBNodes[i].keys[a]);
                     }
                 }
 
@@ -200,12 +172,14 @@ namespace Btree {
                                 if (fakeBNodes[i].depth + 1 == fakeBNodes[j].depth) {
                                     childKeyCount += fakeBNodes[j].keysCount;
                                     if (childNodeIndex == currentChildIndex) {
+                                        /*
                                         Console.WriteLine("================================");
                                         Console.WriteLine("Node parent : " + i);
                                         Console.WriteLine("currentChildCount : " + currentChildCount);
                                         Console.WriteLine("fakeBNodes[i].childCount : " + fakeBNodes[i].childCount);
                                         Console.WriteLine("x : " + x);
                                         Console.WriteLine("currentNodeIndex : " + currentNodeIndex);
+                                        */
 
                                         int x1 = (currentNodeIndex + x) * RECTANGLE_SIZE + currentNodeIndex * RECTANGLE_SIZE; // bug
                                         int y1 = lastDepth * (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE) + RECTANGLE_SIZE;
@@ -221,23 +195,71 @@ namespace Btree {
                     }
                 }
 
-                // step 4. draw line
-                for (int m = 0; m < lines.Count; m++) {
-                    // color buggy
-                    bool isCorrelated = false;
-                    for (int i = 0; i < nodeRectangle.Count; i++) {
-                        Rectangle tempIn = new Rectangle(lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
-                        if (nodeRectangle[i].IntersectsWith(tempIn)) {
-                            isCorrelated = true;
-                            break;
-                        }
+                // step 4. move everything to center
+                // 4a. get startX endX
+                int currentDepth = 0, lastY = 0,lastX=0;
+                for (int i = 0; i < nodeRectangle.Count(); i++) {
+                    // change depth
+                    if(i==0){
+                        lastY = nodeRectangle[i].Top;
+                    }else if(nodeRectangle[i].Top != lastY){
+                        // add to startX,endX
+                        endX[currentDepth] = lastX;
+
+                        // reset
+                        currentDepth++;
+                        lastY = nodeRectangle[i].Top;
+                    }else if(i==nodeRectangle.Count()-1){
+                        endX[currentDepth] = nodeRectangle[i].Right;
                     }
 
-                    if (isCorrelated) {
-                        e.Graphics.DrawLine(ps, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
-                    } else {
-                        e.Graphics.DrawLine(p, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
+                    // get
+                    if(i==0){
+                        lastX = nodeRectangle[i].Right;
+                    }else{
+                        lastX = nodeRectangle[i].Right;
                     }
+                }
+                // 4b. set added X
+                for (int i = 0; i < bt.maxDepth+1; i++) {
+                    extraX[i] = (panel1.Width - endX[i]) / 2;
+                }
+                // 4c. execute rectangle + string
+                currentDepth=0;
+                lastY=0;
+                for (int i = 0; i < nodeRectangle.Count(); i++) {
+                    if (i == 0) {
+                        lastY = nodeRectangle[i].Top;
+                    }else if (nodeRectangle[i].Top != lastY) {
+                        currentDepth++;
+                        lastY = nodeRectangle[i].Top;
+                    }
+                    nodeRectangle[i] = new Rectangle(nodeRectangle[i].X + extraX[currentDepth],nodeRectangle[i].Y,nodeRectangle[i].Width, nodeRectangle[i].Height); // = endX[currentDepth];
+                }
+
+                // 4c. execute line
+                currentDepth = 0;
+                lastY = 0;
+                for (int i = 0; i < lines.Count; i++) {
+                    if (i == 0) {
+                        lastY = lines[i].y1;
+                    } else if (lines[i].y1 != lastY) {
+                        currentDepth++;
+                        lastY = lines[i].y1;
+                    }
+
+                    lines[i] = new LinePosition(lines[i].x1 + extraX[currentDepth], lines[i].y1, lines[i].x2 + extraX[currentDepth + 1], lines[i].y2);
+                }
+
+                // step 5. draw rectangle string from
+                for (int i = 0; i < nodeRectangle.Count; i++) {
+                    e.Graphics.DrawRectangle(p, nodeRectangle[i]);
+                    e.Graphics.DrawString(nodeKey[i].ToString(), f, b, nodeRectangle[i]);
+                }
+
+                // step 6. draw line
+                for (int m = 0; m < lines.Count; m++) {
+                    e.Graphics.DrawLine(p, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
                 }
 
                 //Console.WriteLine("Inorder!");
