@@ -38,3 +38,13 @@ D:\Project Kuliah\Tes\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.GenerateR
 D:\Project Kuliah\Tes\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.CoreCompileInputs.cache
 D:\Project Kuliah\Tes\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.exe
 D:\Project Kuliah\Tes\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.pdb
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\bin\Debug\ProjectSDL2.exe.config
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\bin\Debug\ProjectSDL2.exe
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\bin\Debug\ProjectSDL2.pdb
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.csprojAssemblyReference.cache
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.Form1.resources
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.Properties.Resources.resources
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.GenerateResource.cache
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.CoreCompileInputs.cache
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.exe
+E:\Kuliah\Semester 3\_Proyek\workspace\SDL\AVLtree\ProjectSDL2\obj\Debug\ProjectSDL2.pdb

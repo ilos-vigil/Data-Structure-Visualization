@@ -111,7 +111,7 @@ namespace Btree {
                 child.parent = parent;
         }
 
-        Node find(Bnode root, int key) {
+        public Node find(Bnode root, int key) {
             Bnode current = root;
             while (current != null) {
                 int position = current.findPosition(key);
@@ -244,6 +244,7 @@ namespace Btree {
                 fakeBNodes.Add(new FakeBNode(depth, root.n, root.keys, traverseIndex, childCount));
 
                 // debug
+                /*
                 Console.WriteLine("---Start---");
                 Console.WriteLine("Depth : " + depth);
                 Console.WriteLine("Bnode.n : " + root.n);
@@ -252,6 +253,7 @@ namespace Btree {
                     Console.WriteLine("root.keys ke-" + i + "=" + root.keys[i]);
                 }
                 Console.WriteLine("----End----");
+                */
             }
         }
     }

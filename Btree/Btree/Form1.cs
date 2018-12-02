@@ -10,12 +10,22 @@ using System.Windows.Forms;
 
 namespace Btree {
     public partial class Form1 : Form {
+        /* List bug :
+         * bug posisi ketika parent punya 2 child (total 3 node)
+         * bug search kotak/string
+         * bug search line
+         * posisi gambar mulai dari kiri
+         * 
+         */
         Btree bt;
+        bool onSearch;
+        int ordoSize, insertValue, deleteValue, searchValue;
 
         int width = 854, height = 480;
 
         public Form1() {
             InitializeComponent();
+            onSearch = false;
         }
 
         private void BtnOrdo_Click(object sender, EventArgs e) {
@@ -26,7 +36,7 @@ namespace Btree {
                 SetOrdo();
         }
         private void SetOrdo() {
-            int ordoSize = int.Parse(tbOrdo.Text);
+            ordoSize = int.Parse(tbOrdo.Text);
             bt = new Btree(ordoSize);
             tbOrdo.Text = "";
             panel1.Refresh();
@@ -49,7 +59,7 @@ namespace Btree {
                 InsertKey();
         }
         private void InsertKey() {
-            int insertValue = int.Parse(tbInsert.Text);
+            insertValue = int.Parse(tbInsert.Text);
             bt.insert(ref bt.root, insertValue);
             Console.WriteLine("Insert " + tbInsert.Text);
             tbInsert.Text = "";
@@ -64,10 +74,15 @@ namespace Btree {
                 SearchKey();
         }
         private void SearchKey() {
-            //int searchValue = int.Parse(tbSearch.Text);
-            // search method
-            //tbDelete.Text = "";
-            panel1.Refresh();
+            searchValue = int.Parse(tbSearch.Text);
+            if (bt.find(bt.root, searchValue) == null) {
+
+            } else {
+                onSearch = true;
+                panel1.Refresh();
+                onSearch = false;
+            }
+            tbSearch.Text = "";
         }
 
         private void BtnDelete_Click(object sender, EventArgs e) {
@@ -86,10 +101,19 @@ namespace Btree {
 
         private void Panel1_Paint(object sender, PaintEventArgs e) {
             if (bt != null) {
+                // normal
                 Pen p = new Pen(Color.Black);
                 Brush b = new SolidBrush(Color.Black);
                 Font f = new Font("Courier New", 10, FontStyle.Regular);
+
+                // to be drawn
+                List<Rectangle> nodeRectangle = new List<Rectangle>();
                 List<LinePosition> lines = new List<LinePosition>();
+
+                // for search
+                Pen ps = new Pen(Color.Red);
+                Brush bs = new SolidBrush(Color.Red);
+                Font fs = new Font("Courier New", 10, FontStyle.Bold);
 
                 const int RECTANGLE_SIZE = 30, RECTANGLE_Y_DISTANCE = 20;// RECTANGLE_SIZE also used as RECTANGLE_X_DISTANCE
 
@@ -118,8 +142,38 @@ namespace Btree {
                         // step 2. set key position & draw key + rectangle
                         int x = (keysCount[lastDepth] - fakeBNodes[i].keysCount + a) * RECTANGLE_SIZE + nodeCount[lastDepth] * RECTANGLE_SIZE;
                         int y = lastDepth * (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
-                        e.Graphics.DrawRectangle(p, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                        e.Graphics.DrawString(fakeBNodes[i].keys[a].ToString(), f, b, x, y);
+                        bool isCorrelated = false; // only used when on searcg
+
+                        if (onSearch) {
+                            // jika value sama
+                            if (fakeBNodes[i].keys[a] == searchValue) {
+                                isCorrelated = true;
+                            }
+                            // parent && value diantara
+                            if (a < fakeBNodes[i].keysCount - 1 && searchValue > fakeBNodes[i].keys[a] && searchValue < fakeBNodes[i].keys[a + 1]) {
+                                isCorrelated = true;
+                            }
+                            if (a > 0 && searchValue > fakeBNodes[i].keys[a - 1] && searchValue < fakeBNodes[i].keys[a]) {
+                                isCorrelated = true;
+                            }
+                            // parent && value lebih besar - buggy
+                            if(fakeBNodes[i].depth < bt.maxDepth && a == fakeBNodes[i].keysCount - 1 && searchValue > fakeBNodes[i].keys[a]){
+                                isCorrelated = true;
+                            }
+                            // parent && value lebih kecil - buggy
+                            if (fakeBNodes[i].depth < bt.maxDepth && a == 0 && searchValue < fakeBNodes[i].keys[a]) {
+                                isCorrelated = true;
+                            }
+                        }
+
+                        if (isCorrelated) {
+                            nodeRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
+                            e.Graphics.DrawRectangle(ps, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+                            e.Graphics.DrawString(fakeBNodes[i].keys[a].ToString(), fs, b, x, y);
+                        } else {
+                            e.Graphics.DrawRectangle(p, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+                            e.Graphics.DrawString(fakeBNodes[i].keys[a].ToString(), f, b, x, y);
+                        }
                     }
                 }
 
@@ -169,11 +223,25 @@ namespace Btree {
 
                 // step 4. draw line
                 for (int m = 0; m < lines.Count; m++) {
-                    e.Graphics.DrawLine(p, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
+                    // color buggy
+                    bool isCorrelated = false;
+                    for (int i = 0; i < nodeRectangle.Count; i++) {
+                        Rectangle tempIn = new Rectangle(lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
+                        if (nodeRectangle[i].IntersectsWith(tempIn)) {
+                            isCorrelated = true;
+                            break;
+                        }
+                    }
+
+                    if (isCorrelated) {
+                        e.Graphics.DrawLine(ps, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
+                    } else {
+                        e.Graphics.DrawLine(p, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
+                    }
                 }
 
-                Console.WriteLine("Inorder!");
-                bt.inorder(ref bt.root);
+                //Console.WriteLine("Inorder!");
+                //bt.inorder(ref bt.root);
             }
         }
     }
