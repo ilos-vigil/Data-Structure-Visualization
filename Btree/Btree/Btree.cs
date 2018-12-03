@@ -49,7 +49,7 @@ namespace Btree {
             if (root != null) {
                 for (int i = 0; i < root.n; i++) {
                     inorder(ref root.children[i]);
-                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
+                    // Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
                 }
                 inorder(ref root.children[root.n]);
             }
@@ -200,11 +200,11 @@ namespace Btree {
             getMaxDepth(ref root);
             getNodeCount(ref root);
             traverseIndex = new int[nodeCount][];
-            Console.WriteLine("NODE COUNTTTTTTTTT : " + nodeCount);
+            // Console.WriteLine("NODE COUNTTTTTTTTT : " + nodeCount);
 
             getFakeBNodes(ref root);
             fakeBNodes.Sort(new CompareFakeBNode());
-            printFake();
+            // printFake();
             return fakeBNodes;
         }
 
@@ -238,7 +238,27 @@ namespace Btree {
             }
         }
 
-        // BUG : insert keys & traverseIndex
+        // bug return array != array on Form1
+        public List<int> getFindTraverseIndex(Bnode root, int key) {
+            Bnode current = root;
+            List<int> searchTraverseIndex = new List<int>();
+            while (current != null) {
+                int position = current.findPosition(key);
+                if (position < current.n && current.keys[position] == key) {
+                    for (int i = 0; i < searchTraverseIndex.Count(); i++) {
+                        Console.WriteLine("searchTraverseIndex : " + searchTraverseIndex[i]);
+                    }
+                    return searchTraverseIndex; //found
+                }
+                else {
+                    current = current.children[position];
+                    searchTraverseIndex.Add(position);
+                }
+            }
+            return null; //not found
+        }
+
+
         public void getFakeBNodes(ref Bnode root, int parentIndex=-1, int traverseWay=-1, int depth = 0) {
             if(root!=null){
                 int nodeCtr = ctr;

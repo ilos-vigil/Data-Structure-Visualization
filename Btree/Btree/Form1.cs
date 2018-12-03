@@ -13,18 +13,19 @@ namespace Btree {
         /* List bug :
          * bug search kotak/string
          * bug search line
+         * bug posisi line jika ordo > 3
          */
         Btree bt;
-        bool onSearch;
         int ordoSize, insertValue, deleteValue, searchValue;
-
-        int width = 854, height = 480;
+        // untuk membantu visualisasi search
+        bool onSearch;
+        List<int> searchTraverseIndex;
 
         public Form1() {
             InitializeComponent();
             onSearch = false;
         }
-
+        // SET
         private void BtnOrdo_Click(object sender, EventArgs e) {
             SetOrdo();
         }
@@ -47,7 +48,7 @@ namespace Btree {
 
             btnOrdo.Text = "Reset Tree";
         }
-
+        // INSERT
         private void BtnInsert_Click(object sender, EventArgs e) {
             InsertKey();
         }
@@ -62,7 +63,7 @@ namespace Btree {
             tbInsert.Text = "";
             panel1.Refresh();
         }
-
+        // SEARCH
         private void BtnSearch_Click(object sender, EventArgs e) {
             SearchKey();
         }
@@ -72,16 +73,18 @@ namespace Btree {
         }
         private void SearchKey() {
             searchValue = int.Parse(tbSearch.Text);
-            if (bt.find(bt.root, searchValue) == null) {
-
-            } else {
+            searchTraverseIndex = bt.getFindTraverseIndex(bt.root, searchValue); // bug return array != array on Form1
+            if (searchTraverseIndex!=null) {
+                for (int i = 0; i < searchTraverseIndex.Count(); i++) {
+                    Console.WriteLine("search traverse index (result in form1) : " + searchTraverseIndex[i]);
+                }
                 onSearch = true;
                 panel1.Refresh();
                 onSearch = false;
             }
             tbSearch.Text = "";
         }
-
+        // DELETE
         private void BtnDelete_Click(object sender, EventArgs e) {
             DeleteKey();
         }
@@ -90,42 +93,45 @@ namespace Btree {
                 DeleteKey();
         }
         private void DeleteKey() {
-            int deleteValue = int.Parse(tbDelete.Text);
+            deleteValue = int.Parse(tbDelete.Text);
             bt.delete(ref bt.root, deleteValue);
             tbDelete.Text = "";
             panel1.Refresh();
         }
-
+        // DRAW
         private void Panel1_Paint(object sender, PaintEventArgs e) {
             if (bt != null) {
-                // normal
+                // CONST
+                const int RECTANGLE_SIZE = 30, RECTANGLE_Y_DISTANCE = 20;// RECTANGLE_SIZE also used as RECTANGLE_X_DISTANCE
+                // non-search object
+                List<Rectangle> nodeRectangle = new List<Rectangle>();
+                List<int> nodeKey = new List<int>();
+                List<LinePosition> nodeLines = new List<LinePosition>();
+                // search object
+                List<Rectangle> nodeSearchRectangle = new List<Rectangle>();
+                List<int> nodeSearchKey = new List<int>();
+                List<LinePosition> nodeSearchLines = new List<LinePosition>();
+                // utility for non-search object
                 Pen p = new Pen(Color.Black);
                 Brush b = new SolidBrush(Color.Black);
                 Font f = new Font("Courier New", 10, FontStyle.Regular);
-
-                // to be drawn
-                List<Rectangle> nodeRectangle = new List<Rectangle>();
-                List<int> nodeKey = new List<int>();
-                List<LinePosition> lines = new List<LinePosition>();
-
-                // for search
+                // utility for non-search object
                 Pen ps = new Pen(Color.Red);
                 Brush bs = new SolidBrush(Color.Red);
                 Font fs = new Font("Courier New", 10, FontStyle.Bold);
-
-                const int RECTANGLE_SIZE = 30, RECTANGLE_Y_DISTANCE = 20;// RECTANGLE_SIZE also used as RECTANGLE_X_DISTANCE
-
+                // NODE property
                 List<FakeBNode> fakeBNodes = bt.getFakeBNodes();
+                // help set object at center
+                int[] oldEndPosition = new int[bt.maxDepth + 1];
+                int[] newStartPosition = new int[bt.maxDepth + 1];
 
-                // to make things on center
-                int[] endX = new int[bt.maxDepth + 1];
-                int[] extraX = new int[bt.maxDepth + 1];
 
                 int lastDepth = 0;
                 int[] keysCount = new int[bt.maxDepth + 1], nodeCount = new int[bt.maxDepth + 1], childCount = new int[bt.maxDepth + 1];
                 // i,j,... = fakeBNodes
                 // a,b,... = fakeBNodes.keys
                 // x,y,... = fakeBNodes.child
+                // m,n,... = fakeBNodes.traverseIndex
                 for (int i = 0; i < fakeBNodes.Count; i++) {
                     // step 1. to determine key position
                     if (fakeBNodes[i].depth != lastDepth) {
@@ -140,12 +146,34 @@ namespace Btree {
                         keysCount[lastDepth] += fakeBNodes[i].keysCount;
                     }
 
+                    // BUG PARENT NODE && starting traverse index
+                    bool isSearchPath = true;
+                    int selectedSearchTraverseIndex=-1;
+                    if (onSearch && fakeBNodes[i].traverseIndex.Count() <= searchTraverseIndex.Count()) {
+                        for (int m = 0; m < fakeBNodes[i].traverseIndex.Count(); m++) {
+                            if (fakeBNodes[i].traverseIndex[m] != searchTraverseIndex[m]) {
+                                isSearchPath = false;
+                                break;
+                            }
+                        }
+                        if(isSearchPath) {
+                            selectedSearchTraverseIndex = fakeBNodes[i].traverseIndex[fakeBNodes[i].traverseIndex.Count()-1];
+                        }
+                    }else{
+                        isSearchPath = false;
+                    }
+
                     for (int a = 0; a < fakeBNodes[i].keysCount; a++) {
                         // step 2. set key/rectangle position
                         int x = (keysCount[lastDepth] - fakeBNodes[i].keysCount + a) * RECTANGLE_SIZE + nodeCount[lastDepth] * RECTANGLE_SIZE;
                         int y = lastDepth * (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
-                        nodeRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
-                        nodeKey.Add(fakeBNodes[i].keys[a]);
+                        if(onSearch && isSearchPath && (a == selectedSearchTraverseIndex || a-1== selectedSearchTraverseIndex || fakeBNodes[i].keys[a] == searchValue)){
+                            nodeSearchRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
+                            nodeSearchKey.Add(fakeBNodes[i].keys[a]);
+                        } else{
+                            nodeRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
+                            nodeKey.Add(fakeBNodes[i].keys[a]);
+                        }
                     }
                 }
 
@@ -185,7 +213,7 @@ namespace Btree {
                                         int y1 = lastDepth * (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE) + RECTANGLE_SIZE;
                                         int x2 = childNodeIndex * RECTANGLE_SIZE + (childKeyCount - fakeBNodes[j].keysCount) * RECTANGLE_SIZE;
                                         int y2 = y1 + RECTANGLE_Y_DISTANCE;
-                                        lines.Add(new LinePosition(x1, y1, x2, y2));
+                                        nodeLines.Add(new LinePosition(x1, y1, x2, y2));
                                     }
                                     childNodeIndex++;
                                 }
@@ -197,58 +225,58 @@ namespace Btree {
 
                 // step 4. move everything to center
                 // 4a. get startX endX
-                int currentDepth = 0, lastY = 0,lastX=0;
+                int currentDepth = 0, lastY = 0, lastX = 0;
                 for (int i = 0; i < nodeRectangle.Count(); i++) {
                     // change depth
-                    if(i==0){
+                    if (i == 0) {
                         lastY = nodeRectangle[i].Top;
-                    }else if(nodeRectangle[i].Top != lastY){
+                    } else if (nodeRectangle[i].Top != lastY) {
                         // add to startX,endX
-                        endX[currentDepth] = lastX;
+                        oldEndPosition[currentDepth] = lastX;
 
                         // reset
                         currentDepth++;
                         lastY = nodeRectangle[i].Top;
-                    }else if(i==nodeRectangle.Count()-1){
-                        endX[currentDepth] = nodeRectangle[i].Right;
+                    } else if (i == nodeRectangle.Count() - 1) {
+                        oldEndPosition[currentDepth] = nodeRectangle[i].Right;
                     }
 
                     // get
-                    if(i==0){
+                    if (i == 0) {
                         lastX = nodeRectangle[i].Right;
-                    }else{
+                    } else {
                         lastX = nodeRectangle[i].Right;
                     }
                 }
                 // 4b. set added X
-                for (int i = 0; i < bt.maxDepth+1; i++) {
-                    extraX[i] = (panel1.Width - endX[i]) / 2;
+                for (int i = 0; i < bt.maxDepth + 1; i++) {
+                    newStartPosition[i] = (panel1.Width - oldEndPosition[i]) / 2;
                 }
                 // 4c. execute rectangle + string
-                currentDepth=0;
-                lastY=0;
+                currentDepth = 0;
+                lastY = 0;
                 for (int i = 0; i < nodeRectangle.Count(); i++) {
                     if (i == 0) {
                         lastY = nodeRectangle[i].Top;
-                    }else if (nodeRectangle[i].Top != lastY) {
+                    } else if (nodeRectangle[i].Top != lastY) {
                         currentDepth++;
                         lastY = nodeRectangle[i].Top;
                     }
-                    nodeRectangle[i] = new Rectangle(nodeRectangle[i].X + extraX[currentDepth],nodeRectangle[i].Y,nodeRectangle[i].Width, nodeRectangle[i].Height); // = endX[currentDepth];
+                    nodeRectangle[i] = new Rectangle(nodeRectangle[i].X + newStartPosition[currentDepth], nodeRectangle[i].Y, nodeRectangle[i].Width, nodeRectangle[i].Height); // = endX[currentDepth];
                 }
 
                 // 4c. execute line
                 currentDepth = 0;
                 lastY = 0;
-                for (int i = 0; i < lines.Count; i++) {
+                for (int i = 0; i < nodeLines.Count; i++) {
                     if (i == 0) {
-                        lastY = lines[i].y1;
-                    } else if (lines[i].y1 != lastY) {
+                        lastY = nodeLines[i].y1;
+                    } else if (nodeLines[i].y1 != lastY) {
                         currentDepth++;
-                        lastY = lines[i].y1;
+                        lastY = nodeLines[i].y1;
                     }
 
-                    lines[i] = new LinePosition(lines[i].x1 + extraX[currentDepth], lines[i].y1, lines[i].x2 + extraX[currentDepth + 1], lines[i].y2);
+                    nodeLines[i] = new LinePosition(nodeLines[i].x1 + newStartPosition[currentDepth], nodeLines[i].y1, nodeLines[i].x2 + newStartPosition[currentDepth + 1], nodeLines[i].y2);
                 }
 
                 // step 5. draw rectangle string from
@@ -256,10 +284,14 @@ namespace Btree {
                     e.Graphics.DrawRectangle(p, nodeRectangle[i]);
                     e.Graphics.DrawString(nodeKey[i].ToString(), f, b, nodeRectangle[i]);
                 }
+                for (int i = 0; i < nodeSearchRectangle.Count; i++) {
+                    e.Graphics.DrawRectangle(ps, nodeSearchRectangle[i]);
+                    e.Graphics.DrawString(nodeSearchKey[i].ToString(), f, bs, nodeSearchRectangle[i]);
+                }
 
                 // step 6. draw line
-                for (int m = 0; m < lines.Count; m++) {
-                    e.Graphics.DrawLine(p, lines[m].x1, lines[m].y1, lines[m].x2, lines[m].y2);
+                for (int m = 0; m < nodeLines.Count; m++) {
+                    e.Graphics.DrawLine(p, nodeLines[m].x1, nodeLines[m].y1, nodeLines[m].x2, nodeLines[m].y2);
                 }
 
                 //Console.WriteLine("Inorder!");
