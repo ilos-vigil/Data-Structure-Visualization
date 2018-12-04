@@ -18,3 +18,13 @@ C:\Users\pc-richard\Desktop\Kuliah\SDL\ProjectSDL2\ProjectSDL2\obj\Debug\Project
 C:\Users\pc-richard\Desktop\Kuliah\SDL\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.CoreCompileInputs.cache
 C:\Users\pc-richard\Desktop\Kuliah\SDL\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.exe
 C:\Users\pc-richard\Desktop\Kuliah\SDL\ProjectSDL2\ProjectSDL2\obj\Debug\ProjectSDL2.pdb
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\bin\Debug\ProjectSDL2.exe.config
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\bin\Debug\ProjectSDL2.exe
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\bin\Debug\ProjectSDL2.pdb
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.csprojAssemblyReference.cache
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.Form1.resources
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.Properties.Resources.resources
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.GenerateResource.cache
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.csproj.CoreCompileInputs.cache
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.exe
+C:\Users\pc-richard\Desktop\Kuliah\SDL_git\RBtree\ProjectSDL2\obj\Debug\ProjectSDL2.pdb

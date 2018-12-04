@@ -20,6 +20,7 @@ namespace ProjectSDL2
             this.WindowState = FormWindowState.Maximized;
             avl = new AVLTree(this);
             temp = new SolidBrush(Color.White);
+            pictureBox1.Width = this.Width;
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -47,7 +48,8 @@ namespace ProjectSDL2
 
         private void insertBtn_Click(object sender, EventArgs e)
         {
-            avl.insertion(ref avl.root, Convert.ToInt32(valueBox.Text.ToString()), 484, 50);
+            avl.insertion(ref avl.root, Convert.ToInt32(valueBox.Text.ToString()), this.Width/2, 50);
+            valueBox.Text = "";
         }
 
         private void searchBtn_Click(object sender, EventArgs e)
@@ -57,7 +59,7 @@ namespace ProjectSDL2
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-
+            avl.delete(ref avl.root, Convert.ToInt32(valueBox.Text.ToString()));
         }
     }
 }

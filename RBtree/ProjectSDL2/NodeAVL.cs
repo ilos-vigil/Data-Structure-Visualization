@@ -15,6 +15,9 @@ namespace ProjectSDL2
         public NodeAVL parent;
         public int x, y;
         public Color color;
+        public Boolean sentinel;
+        public Boolean isRight;
+        public int height;
 
         public NodeAVL(int value,string idLingkaran)
         {
@@ -24,6 +27,8 @@ namespace ProjectSDL2
             this.parent = null;
             this.idLingkaran = idLingkaran;
             color = Color.Red;
+            this.sentinel = false;
+            this.height = 1;
         }
         public NodeAVL(int value)
         {
@@ -32,6 +37,17 @@ namespace ProjectSDL2
             this.right = null;
             this.parent = null;
             color = Color.Red;
+            this.sentinel = false;
+            this.height = 1;
+        }
+        public NodeAVL()
+        {
+            this.left = null;
+            this.right = null;
+            this.parent = null;
+            color = Color.Red;
+            this.sentinel = true;
+            this.height = 1;
         }
     }
 }
