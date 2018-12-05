@@ -37,8 +37,14 @@ namespace Btree {
     public class CompareFakeBNode : IComparer<FakeBNode> {
         public int Compare(FakeBNode x, FakeBNode y) {
             int result = x.depth.CompareTo(y.depth);
-            if (result == 0)
-                result = x.traverseIndex[x.depth - 1].CompareTo(y.traverseIndex[y.depth - 1]);
+            if(result==0){
+                for (int i = 0; i < x.depth; i++) {
+                    result = x.traverseIndex[i].CompareTo(y.traverseIndex[i]);
+                    if(result!=0){
+                        break;
+                    }
+                }
+            }
 
             return result;
         }

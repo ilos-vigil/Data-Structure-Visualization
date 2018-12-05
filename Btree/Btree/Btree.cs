@@ -49,7 +49,7 @@ namespace Btree {
             if (root != null) {
                 for (int i = 0; i < root.n; i++) {
                     inorder(ref root.children[i]);
-                    // Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
+                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
                 }
                 inorder(ref root.children[root.n]);
             }
@@ -245,6 +245,9 @@ namespace Btree {
             while (current != null) {
                 int position = current.findPosition(key);
                 if (position < current.n && current.keys[position] == key) {
+                    if(current==this.root){
+                        searchTraverseIndex.Add(-1);
+                    }
                     for (int i = 0; i < searchTraverseIndex.Count(); i++) {
                         Console.WriteLine("searchTraverseIndex : " + searchTraverseIndex[i]);
                     }

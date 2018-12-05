@@ -40,6 +40,7 @@
             this.tbOrdo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDebug = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -164,11 +165,22 @@
             this.panel1.TabIndex = 12;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1_Paint);
             // 
+            // btnDebug
+            // 
+            this.btnDebug.Location = new System.Drawing.Point(247, 7);
+            this.btnDebug.Name = "btnDebug";
+            this.btnDebug.Size = new System.Drawing.Size(22, 31);
+            this.btnDebug.TabIndex = 13;
+            this.btnDebug.Text = "d";
+            this.btnDebug.UseVisualStyleBackColor = true;
+            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1025, 554);
+            this.Controls.Add(this.btnDebug);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnOrdo);
             this.Controls.Add(this.tbOrdo);
@@ -204,5 +216,6 @@
         private System.Windows.Forms.TextBox tbOrdo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnDebug;
     }
 }

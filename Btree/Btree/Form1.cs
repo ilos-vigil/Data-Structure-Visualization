@@ -11,7 +11,6 @@ using System.Windows.Forms;
 namespace Btree {
     public partial class Form1 : Form {
         /* List bug :
-         * bug search kotak/string
          * bug search line
          * bug posisi line jika ordo > 3
          */
@@ -20,6 +19,8 @@ namespace Btree {
         // untuk membantu visualisasi search
         bool onSearch;
         List<int> searchTraverseIndex;
+        int[] oldEndPosition;
+        int[] newStartPosition;
 
         public Form1() {
             InitializeComponent();
@@ -73,6 +74,7 @@ namespace Btree {
         }
         private void SearchKey() {
             searchValue = int.Parse(tbSearch.Text);
+            Console.WriteLine("search value :" + searchValue);
             searchTraverseIndex = bt.getFindTraverseIndex(bt.root, searchValue); // bug return array != array on Form1
             if (searchTraverseIndex!=null) {
                 for (int i = 0; i < searchTraverseIndex.Count(); i++) {
@@ -81,6 +83,8 @@ namespace Btree {
                 onSearch = true;
                 panel1.Refresh();
                 onSearch = false;
+            }else{
+                panel1.Refresh();
             }
             tbSearch.Text = "";
         }
@@ -88,6 +92,11 @@ namespace Btree {
         private void BtnDelete_Click(object sender, EventArgs e) {
             DeleteKey();
         }
+
+        private void btnDebug_Click(object sender, EventArgs e) {
+            bt.inorder(ref bt.root);
+        }
+
         private void TbDelete_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter)
                 DeleteKey();
@@ -122,8 +131,10 @@ namespace Btree {
                 // NODE property
                 List<FakeBNode> fakeBNodes = bt.getFakeBNodes();
                 // help set object at center
-                int[] oldEndPosition = new int[bt.maxDepth + 1];
-                int[] newStartPosition = new int[bt.maxDepth + 1];
+                if(!onSearch){
+                    oldEndPosition = new int[bt.maxDepth + 1];
+                    newStartPosition = new int[bt.maxDepth + 1];
+                }
 
 
                 int lastDepth = 0;
@@ -151,7 +162,7 @@ namespace Btree {
                     int selectedSearchTraverseIndex=-1;
                     if (onSearch && fakeBNodes[i].traverseIndex.Count() <= searchTraverseIndex.Count()) {
                         for (int m = 0; m < fakeBNodes[i].traverseIndex.Count(); m++) {
-                            if (fakeBNodes[i].traverseIndex[m] != searchTraverseIndex[m]) {
+                            if (fakeBNodes[i].traverseIndex[m] != searchTraverseIndex[m] && fakeBNodes[i].depth!=0) {
                                 isSearchPath = false;
                                 break;
                             }
@@ -167,10 +178,16 @@ namespace Btree {
                         // step 2. set key/rectangle position
                         int x = (keysCount[lastDepth] - fakeBNodes[i].keysCount + a) * RECTANGLE_SIZE + nodeCount[lastDepth] * RECTANGLE_SIZE;
                         int y = lastDepth * (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
-                        if(onSearch && isSearchPath && (a == selectedSearchTraverseIndex || a-1== selectedSearchTraverseIndex || fakeBNodes[i].keys[a] == searchValue)){
+                        if (onSearch && isSearchPath && fakeBNodes[i].depth == 0 && (a == searchTraverseIndex[0] || a + 1 == searchTraverseIndex[0])) { // root
                             nodeSearchRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
                             nodeSearchKey.Add(fakeBNodes[i].keys[a]);
-                        } else{
+                        } else if (onSearch && isSearchPath && fakeBNodes[i].depth < searchTraverseIndex.Count && (a == searchTraverseIndex[fakeBNodes[i].depth] || a + 1 == searchTraverseIndex[fakeBNodes[i].depth])) { // traverse path
+                            nodeSearchRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
+                            nodeSearchKey.Add(fakeBNodes[i].keys[a]);
+                        } else if (onSearch && isSearchPath && fakeBNodes[i].keys[a]==searchValue) { // selected key
+                            nodeSearchRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
+                            nodeSearchKey.Add(fakeBNodes[i].keys[a]);
+                        } else {
                             nodeRectangle.Add(new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE));
                             nodeKey.Add(fakeBNodes[i].keys[a]);
                         }
@@ -224,45 +241,57 @@ namespace Btree {
                 }
 
                 // step 4. move everything to center
-                // 4a. get startX endX
+                // 4a. get startX endX -- BUGGY
                 int currentDepth = 0, lastY = 0, lastX = 0;
-                for (int i = 0; i < nodeRectangle.Count(); i++) {
-                    // change depth
-                    if (i == 0) {
-                        lastY = nodeRectangle[i].Top;
-                    } else if (nodeRectangle[i].Top != lastY) {
-                        // add to startX,endX
-                        oldEndPosition[currentDepth] = lastX;
+                if (!onSearch){
+                    for (int i = 0; i < nodeRectangle.Count(); i++) {
+                        // change depth
+                        if (i == 0) {
+                            lastY = nodeRectangle[i].Top;
+                            currentDepth = nodeRectangle[i].Top / (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
+                        } else if (currentDepth != nodeRectangle[i].Top / (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE)) {
+                            // add to startX,endX
+                            oldEndPosition[currentDepth] = lastX;
 
-                        // reset
-                        currentDepth++;
-                        lastY = nodeRectangle[i].Top;
-                    } else if (i == nodeRectangle.Count() - 1) {
-                        oldEndPosition[currentDepth] = nodeRectangle[i].Right;
-                    }
+                            // reset
+                            currentDepth = nodeRectangle[i].Top / (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
+                        } else if (i == nodeRectangle.Count() - 1) {
+                            oldEndPosition[currentDepth] = nodeRectangle[i].Right;
+                        }
 
-                    // get
-                    if (i == 0) {
-                        lastX = nodeRectangle[i].Right;
-                    } else {
+                        // get
                         lastX = nodeRectangle[i].Right;
                     }
                 }
+
+                for (int i = 0; i < oldEndPosition.Count(); i++) {
+                    Console.WriteLine("oldEndPosition :" + oldEndPosition[i]);
+                }
+
                 // 4b. set added X
                 for (int i = 0; i < bt.maxDepth + 1; i++) {
                     newStartPosition[i] = (panel1.Width - oldEndPosition[i]) / 2;
                 }
+
                 // 4c. execute rectangle + string
                 currentDepth = 0;
                 lastY = 0;
                 for (int i = 0; i < nodeRectangle.Count(); i++) {
-                    if (i == 0) {
-                        lastY = nodeRectangle[i].Top;
-                    } else if (nodeRectangle[i].Top != lastY) {
-                        currentDepth++;
-                        lastY = nodeRectangle[i].Top;
-                    }
+                    currentDepth = nodeRectangle[i].Top / (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
                     nodeRectangle[i] = new Rectangle(nodeRectangle[i].X + newStartPosition[currentDepth], nodeRectangle[i].Y, nodeRectangle[i].Width, nodeRectangle[i].Height); // = endX[currentDepth];
+                }
+
+                // 4d. execute search rectangle + string
+                currentDepth = 0;
+                lastY = 0;
+                for (int i = 0; i < nodeSearchRectangle.Count(); i++) {
+                    if (i == 0) {
+                        lastY = nodeSearchRectangle[i].Top;
+                    } else if (nodeSearchRectangle[i].Top != lastY) {
+                        currentDepth++;
+                        lastY = nodeSearchRectangle[i].Top;
+                    }
+                    nodeSearchRectangle[i] = new Rectangle(nodeSearchRectangle[i].X + newStartPosition[currentDepth], nodeSearchRectangle[i].Y, nodeSearchRectangle[i].Width, nodeSearchRectangle[i].Height); // = endX[currentDepth];
                 }
 
                 // 4c. execute line
