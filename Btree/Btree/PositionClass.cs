@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Btree {
     public class LinePosition {
@@ -18,14 +12,14 @@ namespace Btree {
         }
     }
 
-    public class FakeBNode{
+    public class FakeBNode {
         public int depth;
         public int keysCount;
         public int[] keys;
         public int[] traverseIndex;
         public int childCount;
 
-        public FakeBNode(int depth,int keysCount,int[] keys,int[] traverseIndex, int childCount){
+        public FakeBNode(int depth, int keysCount, int[] keys, int[] traverseIndex, int childCount) {
             this.depth = depth;
             this.keysCount = keysCount;
             this.keys = keys;
@@ -37,10 +31,10 @@ namespace Btree {
     public class CompareFakeBNode : IComparer<FakeBNode> {
         public int Compare(FakeBNode x, FakeBNode y) {
             int result = x.depth.CompareTo(y.depth);
-            if(result==0){
+            if (result == 0) {
                 for (int i = 0; i < x.depth; i++) {
                     result = x.traverseIndex[i].CompareTo(y.traverseIndex[i]);
-                    if(result!=0){
+                    if (result != 0) {
                         break;
                     }
                 }

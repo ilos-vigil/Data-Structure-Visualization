@@ -37,3 +37,4 @@ E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csproj.Ge
 E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.csproj.CoreCompileInputs.cache
 E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.exe
 E:\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.pdb
+D:\Sandy\Kuliah\Semester 3\_Proyek\workspace\SDL\Btree\Btree\obj\Debug\Btree.Properties.Resources.resources

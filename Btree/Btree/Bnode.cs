@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Btree {
     class Bnode {
@@ -10,9 +6,6 @@ namespace Btree {
         public int[] keys;
         public Bnode[] children;
         public Bnode parent;
-
-        // for easy draw
-        // public int depth;
 
         public Bnode(int m)//,int depth)
         { //m is order of multiway tree
