@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace Btree {
     public partial class Form1 : Form {
         /* List bug :
-         * bug search line
+         * bug search line - partial fixed
          * bug posisi line jika ordo > 3
          */
         Btree bt;
@@ -77,9 +77,6 @@ namespace Btree {
             Console.WriteLine("search value :" + searchValue);
             searchTraverseIndex = bt.getFindTraverseIndex(bt.root, searchValue); // bug return array != array on Form1
             if (searchTraverseIndex!=null) {
-                for (int i = 0; i < searchTraverseIndex.Count(); i++) {
-                    Console.WriteLine("search traverse index (result in form1) : " + searchTraverseIndex[i]);
-                }
                 onSearch = true;
                 panel1.Refresh();
                 onSearch = false;
@@ -241,7 +238,7 @@ namespace Btree {
                 }
 
                 // step 4. move everything to center
-                // 4a. get startX endX -- BUGGY
+                // 4a. get startX endX
                 int currentDepth = 0, lastY = 0, lastX = 0;
                 if (!onSearch){
                     for (int i = 0; i < nodeRectangle.Count(); i++) {
@@ -252,7 +249,6 @@ namespace Btree {
                         } else if (currentDepth != nodeRectangle[i].Top / (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE)) {
                             // add to startX,endX
                             oldEndPosition[currentDepth] = lastX;
-
                             // reset
                             currentDepth = nodeRectangle[i].Top / (RECTANGLE_SIZE + RECTANGLE_Y_DISTANCE);
                         } else if (i == nodeRectangle.Count() - 1) {
@@ -262,10 +258,6 @@ namespace Btree {
                         // get
                         lastX = nodeRectangle[i].Right;
                     }
-                }
-
-                for (int i = 0; i < oldEndPosition.Count(); i++) {
-                    Console.WriteLine("oldEndPosition :" + oldEndPosition[i]);
                 }
 
                 // 4b. set added X
@@ -320,7 +312,20 @@ namespace Btree {
 
                 // step 6. draw line
                 for (int m = 0; m < nodeLines.Count; m++) {
-                    e.Graphics.DrawLine(p, nodeLines[m].x1, nodeLines[m].y1, nodeLines[m].x2, nodeLines[m].y2);
+                    // check if line is part of seach -- naive method
+                    int intersectCount = 0;
+                    Rectangle temp = new Rectangle(nodeLines[m].x1 < nodeLines[m].x2 ? nodeLines[m].x1 - 1 : nodeLines[m].x2 -1, nodeLines[m].y1 - 1, nodeLines[m].x1 < nodeLines[m].x2 ? nodeLines[m].x2 - nodeLines[m].x1 + 2 : nodeLines[m].x1 - nodeLines[m].x2 + 2, nodeLines[m].y2 - nodeLines[m].y1 + 2);
+                    Console.WriteLine(temp.Left + "-" + temp.Top + "-" + temp.Right + "-" + temp.Bottom);
+                    for (int i = 0; i < nodeSearchRectangle.Count(); i++) {
+                        if(temp.IntersectsWith(nodeSearchRectangle[i])){
+                            intersectCount++;
+                        }
+                    }
+                    if(intersectCount>=2) {
+                        e.Graphics.DrawLine(ps, nodeLines[m].x1, nodeLines[m].y1, nodeLines[m].x2, nodeLines[m].y2);
+                    } else{
+                        e.Graphics.DrawLine(p, nodeLines[m].x1, nodeLines[m].y1, nodeLines[m].x2, nodeLines[m].y2);
+                    }
                 }
 
                 //Console.WriteLine("Inorder!");
