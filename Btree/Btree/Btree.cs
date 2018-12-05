@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Btree {
     class Btree {
@@ -111,7 +108,7 @@ namespace Btree {
                 child.parent = parent;
         }
 
-        Node find(Bnode root, int key) {
+        public Node find(Bnode root, int key) {
             Bnode current = root;
             while (current != null) {
                 int position = current.findPosition(key);
@@ -149,8 +146,7 @@ namespace Btree {
                 current = parent;
             return false;
         }
-
-
+        
         void leftRotate(Bnode parent, int position) {
             Bnode left = parent.children[position];
             Bnode right = parent.children[position + 1];
@@ -184,28 +180,31 @@ namespace Btree {
             return left;
         }
 
-        /* Untuk visualisasi
-         */
-
-
-        // prototype visualisasi
-        public int maxDepth;//,totalNode=0;
+        // VISUALISASI
         List<FakeBNode> fakeBNodes;
+        int[][] traverseIndex;
+        public int maxDepth;
+
+        int nodeCount;
+        int nodeCtr;
         public List<FakeBNode> getFakeBNodes() {
             fakeBNodes = new List<FakeBNode>();
-            maxDepth = 0; getMaxDepth(ref root);
-            // Console.WriteLine("NODE COUNTTTTTTTTT : " + getNodeCount(ref root,ref totalNode));
-            int[] traverseIndex = new int[maxDepth+1];
+            maxDepth = 0;
+            nodeCount = 0;
+            nodeCtr = 0;
 
-            getFakeBNodes(ref root, ref traverseIndex);
+            getMaxDepth(ref root);
+            getNodeCount(ref root);
+            traverseIndex = new int[nodeCount][];
+
+            getFakeBNodes(ref root);
             fakeBNodes.Sort(new CompareFakeBNode());
-
             return fakeBNodes;
         }
 
-        public void getMaxDepth(ref Bnode root, int depth=0){
-            if(root!=null){
-                if(depth>maxDepth){
+        public void getMaxDepth(ref Bnode root, int depth = 0) {
+            if (root != null) {
+                if (depth > maxDepth) {
                     maxDepth = depth;
                 }
 
@@ -215,44 +214,70 @@ namespace Btree {
             }
         }
 
-        /*
-        public int getNodeCount(ref Bnode root, ref int count) {
+        public void getNodeCount(ref Bnode root) {
             if (root != null) {
-                count++;
-                for (int i = 0; i < root.n; i++) {
-                    getMaxDepth(ref root.children[i],count);
+                nodeCount++;
+                for (int i = 0; i < root.n + 1; i++) {
+                    getNodeCount(ref root.children[i]);
                 }
             }
-            return count;
         }
-        */
+        
+        public void getFakeBNodes(ref Bnode root, int parentIndex = -1, int traverseWay = -1, int depth = 0) {
+            if (root != null) {
+                int nodeIndex = nodeCtr;
+                nodeCtr++;
 
-        // BUG : insert keys & traverseIndex
-        public void getFakeBNodes(ref Bnode root,ref int[] traverseIndex, int depth = 0) {
-            if(root!=null){
+                // set traverse index
+                if (parentIndex == -1) {
+                    traverseIndex[nodeIndex] = new int[1];
+                    traverseIndex[nodeIndex][0] = -1;
+                } else {
+                    if (traverseIndex[parentIndex][0] == -1) {
+                        traverseIndex[nodeIndex] = new int[1];
+                        traverseIndex[nodeIndex][0] = traverseWay;
+                    } else {
+                        traverseIndex[nodeIndex] = new int[traverseIndex[parentIndex].Count() + 1];
+                        for (int i = 0; i < traverseIndex[parentIndex].Count(); i++) {
+                            traverseIndex[nodeIndex][i] = traverseIndex[parentIndex][i];
+                        }
+                        traverseIndex[nodeIndex][traverseIndex[nodeIndex].Count() - 1] = traverseWay;
+                    }
+                }
+
                 // get childCount & recursive
                 int childCount = 0;
-                for (int i = 0; i < root.n+1; i++) {
-                    if(root.children[i]!=null){
+                for (int i = 0; i < root.n + 1; i++) {
+                    if (root.children[i] != null) {
                         childCount++;
-                        traverseIndex[depth] = i;
-                        getFakeBNodes(ref root.children[i], ref traverseIndex, depth + 1);
+                        getFakeBNodes(ref root.children[i], nodeIndex, i, depth + 1);
                     }
                 }
 
                 // add to fakeBNodes
-                fakeBNodes.Add(new FakeBNode(depth, root.n, root.keys, traverseIndex, childCount));
-
-                // debug
-                Console.WriteLine("---Start---");
-                Console.WriteLine("Depth : " + depth);
-                Console.WriteLine("Bnode.n : " + root.n);
-                Console.WriteLine("Child count : " + childCount);
-                for (int i = 0; i < root.n; i++) {
-                    Console.WriteLine("root.keys ke-" + i + "=" + root.keys[i]);
-                }
-                Console.WriteLine("----End----");
+                fakeBNodes.Add(new FakeBNode(depth, root.n, root.keys, traverseIndex[nodeIndex], childCount));
             }
+        }
+
+        public List<int> getFindTraverseIndex(Bnode root, int key) {
+            Bnode current = root;
+            List<int> searchTraverseIndex = new List<int>();
+            while (current != null) {
+                int position = current.findPosition(key);
+                if (position < current.n && current.keys[position] == key) {
+                    if (current == this.root) {
+                        searchTraverseIndex.Add(-1);
+                    }
+                    for (int i = 0; i < searchTraverseIndex.Count(); i++) {
+                        Console.WriteLine("searchTraverseIndex : " + searchTraverseIndex[i]);
+                    }
+                    return searchTraverseIndex; //found
+                } else {
+                    current = current.children[position];
+                    searchTraverseIndex.Add(position);
+                }
+            }
+            return null; //not found
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Btree
 ## First Time Configuration
 1. git config --global user.email <your email>
 2. git config --global user.name <your name>
-
+    
 ## First time - init
 
 1. git init .
@@ -44,6 +44,12 @@ namespace Btree
 3. git push <link name> <branch name>
     * git push origin master
 
+## Commit & push alternative
+
+1. git add .
+2. git commit -m "<nama commit>"
+    * git commit -m "avl animation insert"
+
 ## Extra Syntax
 
 * git log - lihat semua commit yang ada di local
@@ -52,8 +58,13 @@ namespace Btree
 ## List error & Fix
 
 * error: failed to push some refs to 'https://sandykho47@bitbucket.org/sandykho47/sdl.git'
-    * git pull --rebase origin master
-    * git push origin master
+    * cara 1
+        * git pull --rebase=preserve origin master
+        * git push origin master
+    * cara 2 (semua dilakukan di branch yang dipakai)
+        * git fetch origin
+        * git merge remotes/origin/master
+        * git push origin master
 * remove remote url
     * git remote rm <remote name>
 
@@ -66,3 +77,4 @@ namespace Btree
 * https://medium.com/learn-git-today/the-ultimate-git-guide-to-creating-your-first-repo-b50762a6ab00
 * https://stackoverflow.com/questions/24114676/git-error-failed-to-push-some-refs-to
 * https://help.github.com/articles/removing-a-remote/
+* https://www.atlassian.com/git/tutorials/syncing/git-fetch
