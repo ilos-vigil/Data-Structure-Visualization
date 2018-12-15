@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ProjectSDL2
+namespace AVL_Tree
 {
     static class Program
     {

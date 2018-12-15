@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProjectSDL2.Properties
+namespace AVL_Tree.Properties
 {
 
 

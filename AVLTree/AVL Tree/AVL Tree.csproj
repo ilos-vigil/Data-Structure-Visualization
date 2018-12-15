@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2DC02844-18EC-4BC0-9AF1-A47781EDFD0F}</ProjectGuid>
+    <ProjectGuid>{51031EA5-65B3-420A-960F-2EF3E258D74F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ProjectSDL2</RootNamespace>
-    <AssemblyName>ProjectSDL2</AssemblyName>
+    <RootNamespace>AVL_Tree</RootNamespace>
+    <AssemblyName>AVL Tree</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -55,7 +55,7 @@
     </Compile>
     <Compile Include="Garis.cs" />
     <Compile Include="Lingkaran.cs" />
-    <Compile Include="NodeAVL.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
