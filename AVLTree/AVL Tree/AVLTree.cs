@@ -64,11 +64,17 @@ namespace AVL_Tree
         // See the diagram given above.  
         Node leftRotate(Node x)
         {
+            //y= new root 
+            //T2= anak kiri root baru
             Node y = x.right;
+            //50
             Node T2 = y.left;
-
+            //48
             // Perform rotation  
+
+            //kiri 50 44 sama 17
             y.left = x;
+            //kanan 44 48
             x.right = T2;
 
             // Update heights  
