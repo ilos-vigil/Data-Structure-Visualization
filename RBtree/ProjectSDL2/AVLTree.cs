@@ -89,31 +89,45 @@ namespace ProjectSDL2
         }
         public NodeAVL singleLeftRotate(ref NodeAVL root,NodeAVL p)
         {
-            NodeAVL q = p.right;
-            p.right = q.left;
-            if (q.left != null)
+            if (p.right != null)
             {
-                q.left.parent = p;
+                NodeAVL q = p.right;
+                p.right = q.left;
+                if (q.left != null)
+                {
+                    q.left.parent = p;
+                }
+                q.left = p;
+                replacenodeinparent(ref root, p, q);
+                p.parent = q;
+                swapcolor(p, q);
+                return q;
             }
-            q.left = p;
-            replacenodeinparent(ref root, p, q);
-            p.parent = q;
-            swapcolor(p, q);
-            return q;
+            else
+            {
+                return null;
+            }
         }
         public NodeAVL singleRightRotate(ref NodeAVL root, NodeAVL q)
         {
-            NodeAVL p = q.left;
-            q.left = p.right;
-            if (p.right != null)
+            if (q.left != null)
             {
-                p.right.parent = q;
+                NodeAVL p = q.left;
+                q.left = p.right;
+                if (p.right != null)
+                {
+                    p.right.parent = q;
+                }
+                p.right = q;
+                replacenodeinparent(ref root, q, p);
+                q.parent = p;
+                swapcolor(p, q);
+                return q;
             }
-            p.right = q;
-            replacenodeinparent(ref root, q, p);
-            q.parent = p;
-            swapcolor(p, q);
-            return q;
+            else
+            {
+                return null;
+            }
         }
         public Color color(NodeAVL n)
         {
@@ -338,6 +352,15 @@ namespace ProjectSDL2
                 updatelingkaran(ref root);
                 parent.pictureBox1.Invalidate();
             }
+        }
+        public void search(ref NodeAVL root, int value)
+        {
+            Color temp = find(root, value).color;
+            find(root, value).color = Color.Yellow;
+            lingkaran.Clear();
+            updatelingkaran(ref root);
+            parent.pictureBox1.Invalidate();
+            find(root, value).color = temp;
         }
         public void replaceNodeInParentAndBalancing(ref NodeAVL root, NodeAVL node, NodeAVL child)
         {

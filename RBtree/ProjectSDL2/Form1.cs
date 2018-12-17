@@ -54,7 +54,7 @@ namespace ProjectSDL2
 
         private void searchBtn_Click(object sender, EventArgs e)
         {
-            
+            avl.search(ref avl.root, Convert.ToInt32(valueBox.Text.ToString()));
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
