@@ -89,6 +89,10 @@
       <Project>{33aa4ac1-83fa-4228-b7ff-c049f11f4716}</Project>
       <Name>Btree</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PatriciaTree\PatriciaTree\PatriciaTree.csproj">
+      <Project>{175dc0a2-154d-47c3-9cae-25153906d22a}</Project>
+      <Name>PatriciaTree</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RBtree\ProjectSDL2\ProjectSDL2.csproj">
       <Project>{2dc02844-18ec-4bc0-9af1-a47781edfd0f}</Project>
       <Name>ProjectSDL2</Name>

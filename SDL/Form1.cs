@@ -10,12 +10,14 @@ using System.Windows.Forms;
 using AVL_Tree;
 using Btree;
 using ProjectSDL2; // red-black tree
+using PatriciaTree;
 
 namespace SDL {
     public partial class Form1 : Form {
         AVL_Tree.Form1 avl;
         ProjectSDL2.Form1 rb;
         Btree.Form1 bt;
+        PatriciaTree.Form1 pt;
 
         public Form1() {
             InitializeComponent();
@@ -47,7 +49,11 @@ namespace SDL {
         }
 
         private void patriciaButton_Click(object sender, EventArgs e) {
-
+            if (pt == null) {
+                pt = new PatriciaTree.Form1();
+                pt.FormClosed += ptClose;
+                pt.Show();
+            }
         }
 
         private void avlClose(object sender, EventArgs e){
@@ -61,5 +67,11 @@ namespace SDL {
         private void btClose(object sender, EventArgs e) {
             bt = null;
         }
+
+        private void ptClose(object sender, EventArgs e)
+        {
+            pt = null;
+        }
+
     }
 }

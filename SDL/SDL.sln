@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Btree", "..\Btree\Btree\Btr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectSDL2", "..\RBtree\ProjectSDL2\ProjectSDL2.csproj", "{2DC02844-18EC-4BC0-9AF1-A47781EDFD0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatriciaTree", "..\PatriciaTree\PatriciaTree\PatriciaTree.csproj", "{175DC0A2-154D-47C3-9CAE-25153906D22A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2DC02844-18EC-4BC0-9AF1-A47781EDFD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DC02844-18EC-4BC0-9AF1-A47781EDFD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DC02844-18EC-4BC0-9AF1-A47781EDFD0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{175DC0A2-154D-47C3-9CAE-25153906D22A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{175DC0A2-154D-47C3-9CAE-25153906D22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{175DC0A2-154D-47C3-9CAE-25153906D22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{175DC0A2-154D-47C3-9CAE-25153906D22A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
