@@ -27,7 +27,7 @@ namespace ProjectSDL2
             this.right = null;
             this.parent = null;
             this.idLingkaran = idLingkaran;
-            color = Color.Red;
+            color = Color.Black;
             this.sentinel = false;
             this.height = 1;
         }
@@ -37,7 +37,7 @@ namespace ProjectSDL2
             this.left = null;
             this.right = null;
             this.parent = null;
-            color = Color.Red;
+            color = Color.Black;
             this.sentinel = false;
             this.height = 1;
         }
@@ -46,7 +46,7 @@ namespace ProjectSDL2
             this.left = null;
             this.right = null;
             this.parent = null;
-            color = Color.Red;
+            color = Color.Black;
             this.sentinel = true;
             this.height = 1;
         }

@@ -23,7 +23,7 @@ namespace Btree {
                 while (true) {
                     if (current.children[0] == null) { //insert must be in leaf
                         int position = current.insert(key);
-                        while (current.n > current.size) { //overflow
+                        while (current.n > current.size + 1) { //overflow
                                                            //split the node
                             Object[] result = split(ref root, current, currentDepth);
                             //try to insert middle key to parent

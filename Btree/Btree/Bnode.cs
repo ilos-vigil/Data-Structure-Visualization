@@ -11,8 +11,8 @@ namespace Btree {
         { //m is order of multiway tree
             this.size = m - 1;
             this.n = 0;
-            this.keys = new int[this.size + 1]; //may overflow 1 key
-            this.children = new Bnode[this.size + 2];
+            this.keys = new int[this.size + 1 + 1]; //may overflow 1 key
+            this.children = new Bnode[this.size + 2 + 1];
             this.children[0] = null;
             this.parent = null;
 
