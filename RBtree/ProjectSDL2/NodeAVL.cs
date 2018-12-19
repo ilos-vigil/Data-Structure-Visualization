@@ -18,6 +18,7 @@ namespace ProjectSDL2
         public Boolean sentinel;
         public Boolean isRight;
         public int height;
+        public Boolean passed = false;
 
         public NodeAVL(int value,string idLingkaran)
         {

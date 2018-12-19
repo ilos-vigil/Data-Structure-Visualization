@@ -27,7 +27,7 @@ namespace ProjectSDL2
         {
             foreach (line x in avl.garis)
             {
-                Pen p = new Pen(Color.Black);
+                Pen p = new Pen(x.warna);
                 e.Graphics.DrawLine(p, x.x1, x.y1, x.x2, x.y2);
             }
             foreach (var item in avl.lingkaran)

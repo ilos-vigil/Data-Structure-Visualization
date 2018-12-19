@@ -245,7 +245,14 @@ namespace ProjectSDL2
                 this.root.x = root.x;
                 this.root.y = root.y;
             }
-            lingkaran.Add(new Lingkaran(root.x, root.y, root.value.ToString(), root.color));
+            if (root.passed)
+            {
+                lingkaran.Add(new Lingkaran(root.x, root.y, root.value.ToString(), Color.Yellow));
+            }
+            else
+            {
+                lingkaran.Add(new Lingkaran(root.x, root.y, root.value.ToString(), root.color));
+            }
         }
         public void updatelingkaran(ref NodeAVL root)
         {
@@ -277,9 +284,28 @@ namespace ProjectSDL2
         {
             if (root != null)
             {
-                if (root.left != null) garis.Add(new line(root.x + 15, root.y + 15, root.left.x + 15, root.left.y + 15));
+                if (root.left != null) {
+                    if (root.left.passed && root.passed)
+                    {
+                        garis.Add(new line(root.x + 15, root.y + 15, root.left.x + 15, root.left.y + 15,Color.Yellow));
+                    }
+                    else
+                    {
+                        garis.Add(new line(root.x + 15, root.y + 15, root.left.x + 15, root.left.y + 15,Color.Black));
+                    }
+                }
                 addgaris(ref root.left);
-                if (root.right != null) garis.Add(new line(root.x + 15, root.y + 15, root.right.x + 15, root.right.y + 15));
+                if (root.right != null)
+                {
+                    if (root.right.passed && root.passed)
+                    {
+                        garis.Add(new line(root.x + 15, root.y + 15, root.right.x + 15, root.right.y + 15,Color.Yellow));
+                    }
+                    else
+                    {
+                        garis.Add(new line(root.x + 15, root.y + 15, root.right.x + 15, root.right.y + 15,Color.Black));
+                    }
+                }
                 addgaris(ref root.right);
             }
             else
@@ -355,12 +381,50 @@ namespace ProjectSDL2
         }
         public void search(ref NodeAVL root, int value)
         {
-            Color temp = find(root, value).color;
-            find(root, value).color = Color.Yellow;
+            searching(ref root, value);
             lingkaran.Clear();
             updatelingkaran(ref root);
+            garis.Clear();
+            addgaris(ref root);
             parent.pictureBox1.Invalidate();
-            find(root, value).color = temp;
+            resetsearch(ref root,value);
+        }
+        public NodeAVL searching(ref NodeAVL root,int value)
+        {
+            NodeAVL current = root;
+            while (current != null && value != current.value)
+            {
+                if (value < current.value)
+                {
+                    current.passed = true;
+                    current = current.left;
+                }
+                else
+                {
+                    current.passed = true;
+                    current = current.right;
+                }
+            }
+            current.passed = true;
+            return current;
+        }
+        public void resetsearch(ref NodeAVL root,int value)
+        {
+            NodeAVL current = root;
+            while (current != null && value != current.value)
+            {
+                if (value < current.value)
+                {
+                    current.passed = false;
+                    current = current.left;
+                }
+                else
+                {
+                    current.passed = false;
+                    current = current.right;
+                }
+            }
+            current.passed = false;
         }
         public void replaceNodeInParentAndBalancing(ref NodeAVL root, NodeAVL node, NodeAVL child)
         {
