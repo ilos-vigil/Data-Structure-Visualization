@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Btree {
-    public class LinePosition {
+    public class LinePosition { // temporily store line position
         public int x1, y1, x2, y2;
 
         public LinePosition(int x1, int y1, int x2, int y2) {
@@ -12,7 +12,7 @@ namespace Btree {
         }
     }
 
-    public class FakeBNode {
+    public class FakeBNode { // used to replace actual Btree nodes & to prevent modify actual Btree nodes
         public int depth;
         public int keysCount;
         public int[] keys;
@@ -28,7 +28,7 @@ namespace Btree {
         }
     }
 
-    public class CompareFakeBNode : IComparer<FakeBNode> {
+    public class CompareFakeBNode : IComparer<FakeBNode> { // compare based on depth/x position, to make visualization is correct
         public int Compare(FakeBNode x, FakeBNode y) {
             int result = x.depth.CompareTo(y.depth);
             if (result == 0) {

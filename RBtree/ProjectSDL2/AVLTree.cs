@@ -30,7 +30,7 @@ namespace ProjectSDL2
                 root = newnode;
                 root.x = x;
                 root.y = y;
-                root.color = Color.Red;
+                root.color = Color.Black;
                 parent.pictureBox1.Invalidate();
             }
             else
@@ -38,7 +38,7 @@ namespace ProjectSDL2
                 NodeAVL current = root;
                 while (true)
                 {
-                    if (key > current.value)
+                    if (key < current.value)
                     {
                         if (current.left == null)
                         {
@@ -133,7 +133,7 @@ namespace ProjectSDL2
         {
             if (n == null)
             {
-                return Color.Red;
+                return Color.Black;
             }
             else
             {
@@ -148,19 +148,19 @@ namespace ProjectSDL2
             {
                 if (current == root)
                 {
-                    current.color = Color.Red;
+                    current.color = Color.Black;
                     break;
                 }
-                if (current.parent.color == Color.Black)
+                if (current.parent.color == Color.Red)
                 {
                     NodeAVL p = current.parent;
                     NodeAVL g = p.parent;
                     NodeAVL u = p == g.left ? g.right : g.left;
-                    if (color(u)==Color.Black)
+                    if (color(u)==Color.Red)
                     {
-                        p.color = Color.Red;
-                        u.color = Color.Red;
-                        g.color = Color.Black;
+                        p.color = Color.Black;
+                        u.color = Color.Black;
+                        g.color = Color.Red;
                         current = g;
                     }
                     else
@@ -316,7 +316,7 @@ namespace ProjectSDL2
 
         public Color nodecolor(NodeAVL node)
         {
-            return node.color == Color.Red ? Color.Red : node.color;
+            return node.color == Color.Black ? Color.Black : node.color;
         }
         public void replacenodeinparent(ref NodeAVL root,NodeAVL node,NodeAVL child)
         {
@@ -428,14 +428,14 @@ namespace ProjectSDL2
         }
         public void replaceNodeInParentAndBalancing(ref NodeAVL root, NodeAVL node, NodeAVL child)
         {
-            if (node.color == Color.Black || color(child) == Color.Black)
+            if (node.color == Color.Red || color(child) == Color.Red)
             {
                 if (child != null)
                 {
-                    child.color = Color.Red;
+                    child.color = Color.Black;
                 }
             }
-            else if (node.color == Color.Red && color(child) == Color.Red)
+            else if (node.color == Color.Black && color(child) == Color.Black)
             {
                 if (child == null)
                 {
@@ -462,14 +462,14 @@ namespace ProjectSDL2
                     else if (node.parent.left == node) node.parent.left = null;
                     else node.parent.right = null;
                 }
-                else node.color = Color.Red;
+                else node.color = Color.Black;
             }
-            else if (node.color == Color.Red) node.color = Color.Black;
+            else if (node.color == Color.Black) node.color = Color.Red;
         }
         public void increaseColor(ref NodeAVL root, NodeAVL node)
         {
-            if (node.color == Color.Black) node.color = Color.Red;
-            else if (node.color == Color.Red) node.color = Color.Gray;
+            if (node.color == Color.Red) node.color = Color.Black;
+            else if (node.color == Color.Black) node.color = Color.Gray;
         }
         public void retraceafterdeletion(ref NodeAVL root, NodeAVL u)
         {
@@ -490,7 +490,7 @@ namespace ProjectSDL2
                 {
                     s = p.left;
                 }
-                if (color(s) == Color.Black)
+                if (color(s) == Color.Red)
                 {
                     rotate(ref root, null, s, p);
                 }
@@ -499,13 +499,13 @@ namespace ProjectSDL2
                     NodeAVL r = null;
                     if (s == p.left)
                     {
-                        if (color(s.left) == Color.Black) r = s.left;
-                        else if (color(s.right) == Color.Black) r = s.right;
+                        if (color(s.left) == Color.Red) r = s.left;
+                        else if (color(s.right) == Color.Red) r = s.right;
                     }
                     else
                     {
-                        if (color(s.right) == Color.Black) r = s.right;
-                        else if (color(s.left) == Color.Black) r = s.left;
+                        if (color(s.right) == Color.Red) r = s.right;
+                        else if (color(s.left) == Color.Red) r = s.left;
                     }
                     if (r != null)
                     {

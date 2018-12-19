@@ -6,7 +6,8 @@ namespace Btree {
     class Btree {
         public Bnode root;
         public int m;
-
+        // CODE
+        #region
         public Btree(int m) {
             root = new Bnode(m);//,0);
             this.m = m;
@@ -23,7 +24,7 @@ namespace Btree {
                 while (true) {
                     if (current.children[0] == null) { //insert must be in leaf
                         int position = current.insert(key);
-                        while (current.n > current.size + 1) { //overflow
+                        while (current.n > current.size) { //overflow
                                                            //split the node
                             Object[] result = split(ref root, current, currentDepth);
                             //try to insert middle key to parent
@@ -46,7 +47,7 @@ namespace Btree {
             if (root != null) {
                 for (int i = 0; i < root.n; i++) {
                     inorder(ref root.children[i]);
-                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString()));
+                    Console.WriteLine("Keys : " + root.keys[i] + " n : " + root.n + " parent.keys[0] : " + (root.parent == null ? "-" : root.parent.keys[0].ToString())); // used when you're not sure visualization is correct
                 }
                 inorder(ref root.children[root.n]);
             }
@@ -179,8 +180,10 @@ namespace Btree {
             parent.delete(position);
             return left;
         }
+        #endregion
 
-        // VISUALISASI
+        // VISUALIZATION
+        #region
         List<FakeBNode> fakeBNodes;
         int[][] traverseIndex;
         public int maxDepth;
@@ -268,9 +271,6 @@ namespace Btree {
                     if (current == this.root) {
                         searchTraverseIndex.Add(-1);
                     }
-                    for (int i = 0; i < searchTraverseIndex.Count(); i++) {
-                        Console.WriteLine("searchTraverseIndex : " + searchTraverseIndex[i]);
-                    }
                     return searchTraverseIndex; //found
                 } else {
                     current = current.children[position];
@@ -279,5 +279,6 @@ namespace Btree {
             }
             return null; //not found
         }
+        #endregion
     }
 }

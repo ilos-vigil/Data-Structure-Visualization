@@ -45,10 +45,6 @@ namespace AVL_Tree
         // See the diagram given above.  
         Node rightRotate(Node y)
         {
-            if (y==null || y.left ==null)
-            {
-                return y; 
-            }
             Node x = y.left;
             Node T2 = x.right;
 
@@ -70,10 +66,6 @@ namespace AVL_Tree
         {
             //y= new root 
             //T2= anak kiri root baru
-            if (x == null || x.right==null)
-            {
-                return x;
-            }
             Node y = x.right;
             //50
             Node T2 = y.left;
@@ -182,14 +174,8 @@ namespace AVL_Tree
             {
                 form.Status.Text = "Double right Rotate on " + node.key;
                 delay();
-                /*
                 node.left = leftRotate(node.left);
                 return rightRotate(node);
-            */
-                //modif
-                node.right = rightRotate(node.right);
-                return leftRotate(node);
-
             }
 
             // Right Left Case  
@@ -197,13 +183,8 @@ namespace AVL_Tree
             {
                 form.Status.Text = "Double left Rotate on " + node.key;
                 delay();
-                /*
                 node.right = rightRotate(node.right);
                 return leftRotate(node);
-           
-                */
-                node.left = leftRotate(node.left);
-                return rightRotate(node);
             }
 
             /* return the (unchanged) node pointer */
@@ -393,10 +374,9 @@ namespace AVL_Tree
                     delay();
                     form.Status.Text = " Current go to right";
                     lingkaran[current.idLingkaran].brush = new SolidBrush(Color.Black);
-                    current = current.right;
                     delay();
                 }
-                else if ( value == current.key)
+                else
                 {
                     form.Status.Text = value + " exist in tree" ;
                     lingkaran[current.idLingkaran].brush = new SolidBrush(Color.Yellow);
@@ -404,9 +384,7 @@ namespace AVL_Tree
                     lingkaran[current.idLingkaran].brush = new SolidBrush(Color.Black);
                     form.mbox(value + " has been found in tree");
                     delay();
-                    
                     return;
-                    break;
                 }
 
             }
