@@ -374,6 +374,7 @@ namespace AVL_Tree
                     delay();
                     form.Status.Text = " Current go to right";
                     lingkaran[current.idLingkaran].brush = new SolidBrush(Color.Black);
+                    current = current.right;
                     delay();
                 }
                 else
