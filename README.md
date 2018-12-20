@@ -1,21 +1,9 @@
-# Proyek SDL
+# Data Structure Visialization
 
-* List tree
-    * AVL
-    * RB
-    * B
-    * Patricia
+Data Structure Visialization for :
+1. AVL tree
+2. Red-black tree
+3. B tree
+4. PATRICIA tree
 
-# Progress
-
-1. AVL
-    * Step by step explanation
-    * Insert Visualization - w/ animation
-    * Search Visualization - w/ animation
-2. RB
-    * Insert Visualization - w/o animation (buggy?)
-3. B
-    * Insert Visualization - w/o animation
-    * Delete Visualization - w/o animation
-4. Patricia
-    * -
+Made with Visual Studio 2017 (.NET Framework 4.5)
